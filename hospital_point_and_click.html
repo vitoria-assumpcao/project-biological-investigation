@@ -1,0 +1,475 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+#g{font-family:var(--font-sans);user-select:none}
+#hud{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+#hud-title{font-size:13px;font-weight:500;color:var(--color-text-primary);flex:1}
+#hud-clues{font-size:12px;color:var(--color-text-secondary)}
+.badge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500}
+.badge-red{background:#FCEBEB;color:#A32D2D}
+.badge-teal{background:#E1F5EE;color:#0F6E56}
+.badge-amber{background:#FAEEDA;color:#854F0B}
+
+#scene-wrap{position:relative;width:100%}
+#scene-wrap canvas{display:block;width:100%;cursor:default}
+#scene-wrap svg.overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+
+#dialog{background:var(--color-background-primary);border-top:0.5px solid var(--color-border-tertiary);min-height:120px;padding:14px 16px}
+#dialog-speaker{font-size:12px;font-weight:500;color:#185FA5;margin-bottom:4px}
+#dialog-text{font-size:14px;color:var(--color-text-primary);line-height:1.6;margin-bottom:10px}
+#dialog-meta{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:6px;padding:7px 10px;margin-bottom:10px;line-height:1.5;display:none}
+#dialog-actions{display:flex;gap:8px;flex-wrap:wrap}
+.d-btn{font-size:13px;padding:5px 13px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer;font-family:var(--font-sans)}
+.d-btn:hover{background:var(--color-background-secondary)}
+.d-btn.primary{border-color:#378ADD;color:#185FA5;background:#E6F1FB}
+
+#clue-tray{padding:8px 14px;background:var(--color-background-secondary);border-top:0.5px solid var(--color-border-tertiary);min-height:38px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+#clue-tray-label{font-size:11px;color:var(--color-text-tertiary);margin-right:2px}
+.clue-chip{font-size:11px;padding:3px 9px;border-radius:20px;background:#FAEEDA;color:#854F0B;border:0.5px solid #FAC775}
+
+#nav-bar{display:flex;gap:0;border-top:0.5px solid var(--color-border-tertiary)}
+.nav-btn{flex:1;padding:8px 4px;font-size:12px;border:none;background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;font-family:var(--font-sans);border-right:0.5px solid var(--color-border-tertiary)}
+.nav-btn:last-child{border-right:none}
+.nav-btn:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.nav-btn.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+</style>
+
+<h2 class="sr-only">Jogo point-and-click: investigue o surto bacteriano no Hospital São Lucas clicando em objetos e personagens de cada cena.</h2>
+
+<div id="g">
+<div id="hud">
+  <span id="hud-title">Hospital São Lucas — Caso #2024-07</span>
+  <span id="hud-clues">Pistas: <b id="clue-count">0</b>/6</span>
+  <span class="badge badge-red" id="hud-badge">Fase 1</span>
+</div>
+
+<div id="scene-wrap">
+  <canvas id="c" height="320"></canvas>
+</div>
+
+<div id="clue-tray">
+  <span id="clue-tray-label">Evidências:</span>
+</div>
+
+<div id="dialog">
+  <div id="dialog-speaker"></div>
+  <div id="dialog-text">Clique nos objetos e personagens para investigar.</div>
+  <div id="dialog-meta"></div>
+  <div id="dialog-actions"></div>
+</div>
+
+<div id="nav-bar">
+  <button class="nav-btn active" onclick="goScene(0)">UTI</button>
+  <button class="nav-btn" onclick="goScene(1)" id="nb1" disabled style="opacity:.4">Corredor</button>
+  <button class="nav-btn" onclick="goScene(2)" id="nb2" disabled style="opacity:.4">Laboratório</button>
+  <button class="nav-btn" onclick="goScene(3)" id="nb3" disabled style="opacity:.4">Relatório</button>
+</div>
+</div>
+
+<script>
+const W=680,H=320;
+let cv,ctx,cur=0,clues=[],clickZones=[];
+
+const SCENES=[
+{
+  id:'uti',
+  label:'UTI — leito 3',
+  draw:drawUTI,
+  zones:[]
+},
+{
+  id:'corredor',
+  label:'Corredor — ala de recuperação',
+  draw:drawCorridor,
+  zones:[]
+},
+{
+  id:'lab',
+  label:'Laboratório de microbiologia',
+  draw:drawLab,
+  zones:[]
+},
+{
+  id:'report',
+  label:'Relatório final',
+  draw:drawReport,
+  zones:[]
+}
+];
+
+function initCanvas(){
+  cv=document.getElementById('c');
+  ctx=cv.getContext('2d');
+  cv.width=W; cv.height=H;
+  cv.addEventListener('click',onCanvasClick);
+  cv.addEventListener('mousemove',onMouseMove);
+  renderScene();
+}
+
+function onCanvasClick(e){
+  const r=cv.getBoundingClientRect();
+  const sx=W/r.width, sy=H/r.height;
+  const mx=(e.clientX-r.left)*sx, my=(e.clientY-r.top)*sy;
+  for(const z of clickZones){
+    if(mx>=z.x&&mx<=z.x+z.w&&my>=z.y&&my<=z.y+z.h){
+      z.fn(); return;
+    }
+  }
+}
+
+function onMouseMove(e){
+  const r=cv.getBoundingClientRect();
+  const sx=W/r.width, sy=H/r.height;
+  const mx=(e.clientX-r.left)*sx, my=(e.clientY-r.top)*sy;
+  let hit=false;
+  for(const z of clickZones){ if(mx>=z.x&&mx<=z.x+z.w&&my>=z.y&&my<=z.y+z.h){hit=true;break;} }
+  cv.style.cursor=hit?'pointer':'default';
+}
+
+function zone(x,y,w,h,fn){ clickZones.push({x,y,w,h,fn}); }
+
+function speak(who,text,meta,actions){
+  document.getElementById('dialog-speaker').textContent=who;
+  document.getElementById('dialog-text').textContent=text;
+  const m=document.getElementById('dialog-meta');
+  if(meta){m.style.display='block';m.textContent=meta;}else{m.style.display='none';}
+  const a=document.getElementById('dialog-actions');
+  a.innerHTML='';
+  (actions||[]).forEach(ac=>{
+    const b=document.createElement('button');
+    b.className='d-btn'+(ac.primary?' primary':'');
+    b.textContent=ac.label;
+    b.onclick=ac.fn;
+    a.appendChild(b);
+  });
+}
+
+function addClue(id,label){
+  if(clues.includes(id))return false;
+  clues.push(id);
+  document.getElementById('clue-count').textContent=clues.length;
+  const chip=document.createElement('span');
+  chip.className='clue-chip'; chip.textContent=label;
+  document.getElementById('clue-tray').appendChild(chip);
+  unlockNav();
+  return true;
+}
+
+function unlockNav(){
+  if(clues.length>=1){const n=document.getElementById('nb1');n.disabled=false;n.style.opacity=1;}
+  if(clues.length>=3){const n=document.getElementById('nb2');n.disabled=false;n.style.opacity=1;}
+  if(clues.length>=5){const n=document.getElementById('nb3');n.disabled=false;n.style.opacity=1;}
+  document.getElementById('hud-badge').textContent=clues.length>=5?'Fase 3':clues.length>=3?'Fase 2':'Fase 1';
+  document.getElementById('hud-badge').className='badge '+(clues.length>=5?'badge-teal':clues.length>=3?'badge-amber':'badge-red');
+}
+
+function goScene(i){
+  cur=i; 
+  document.querySelectorAll('.nav-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+  speak('','Clique nos objetos e personagens para investigar.','',null);
+  renderScene();
+}
+
+function renderScene(){ clickZones=[]; SCENES[cur].draw(ctx); }
+
+function rect(x,y,w,h,fill,stroke,rx=4){
+  ctx.fillStyle=fill; ctx.strokeStyle=stroke||'#B4B2A9'; ctx.lineWidth=0.5;
+  if(rx>0){
+    ctx.beginPath();ctx.roundRect(x,y,w,h,rx);ctx.fill();
+    if(stroke!=='none')ctx.stroke();
+  } else {ctx.fillRect(x,y,w,h);if(stroke!=='none')ctx.strokeRect(x,y,w,h);}
+}
+
+function txt(s,x,y,size=13,color='#2C2C2A',align='left',weight='400'){
+  ctx.font=`${weight} ${size}px sans-serif`;
+  ctx.fillStyle=color; ctx.textAlign=align; ctx.textBaseline='middle';
+  ctx.fillText(s,x,y);
+}
+
+function person(x,y,skinColor,clothColor,label){
+  ctx.fillStyle=skinColor;
+  ctx.beginPath();ctx.arc(x,y-28,10,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=clothColor;
+  ctx.beginPath();ctx.moveTo(x-11,y-18);ctx.lineTo(x+11,y-18);ctx.lineTo(x+14,y);ctx.lineTo(x-14,y);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#B4B2A9'; ctx.fillRect(x-6,y,12,18);
+  txt(label,x,y+28,10,'#444441','center');
+}
+
+function glowZone(x,y,w,h,color='rgba(250,206,117,0.25)'){
+  ctx.fillStyle=color;
+  ctx.beginPath();ctx.roundRect(x,y,w,h,6);ctx.fill();
+  ctx.strokeStyle='rgba(250,206,117,0.7)';ctx.lineWidth=1;ctx.stroke();
+}
+
+function drawUTI(ctx){
+  rect(0,0,W,H,'#F1EFE8','none');
+  rect(0,0,W,30,'#D3D1C7','none',0);
+  txt('UTI — andar 3 · leito 3',14,15,12,'#5F5E5A');
+
+  rect(40,50,200,180,'#FFFFFF','#B4B2A9',6);
+  rect(55,95,170,100,'#E6F1FB','#B5D4F4',4);
+  rect(55,60,170,30,'#B4B2A9','#888780',3);
+  txt('leito 3',140,75,11,'#444441','center');
+  txt('rail da cama',140,145,10,'#5F5E5A','center');
+
+  rect(80,200,140,20,'#D3D1C7','#B4B2A9',3);
+  rect(85,175,18,25,'#888780','#5F5E5A',2);
+  rect(107,175,18,25,'#888780','#5F5E5A',2);
+
+  rect(270,60,120,30,'#FFFFFF','#B4B2A9',4);
+  rect(278,68,14,14,'#E24B4A','none',2);
+  txt('MONITOR',332,75,10,'#444441','center');
+  rect(270,98,120,80,'#F1EFE8','#B4B2A9',4);
+  txt('prontuário',330,138,10,'#5F5E5A','center');
+
+  rect(420,40,220,240,'#F8F7F4','#D3D1C7',6);
+  txt('▲ porta',420,50,10,'#888780');
+  rect(430,55,80,180,'#FFFFFF','#D3D1C7',3);
+  rect(520,60,110,30,'#E1F5EE','#9FE1CB',4);
+  txt('protocolo CCIH',575,75,10,'#085041','center');
+  rect(520,100,110,120,'#FFFFFF','#D3D1C7',4);
+  txt('armário',575,160,10,'#5F5E5A','center');
+
+  ctx.fillStyle='rgba(255,255,255,0.6)';
+  ctx.beginPath();ctx.arc(460,280,35,0,Math.PI*2);ctx.fill();
+  person(460,290,'#D85A30','#85B7EB','Ana C.\nhigienização');
+
+  ctx.fillStyle='rgba(255,255,255,0.6)';
+  ctx.beginPath();ctx.arc(580,270,32,0,Math.PI*2);ctx.fill();
+  person(580,280,'#EF9F27','#FFFFFF','Paciente\nleito 3');
+
+  glowZone(50,88,190,120);
+  txt('! clique',140,100,10,'#854F0B','center');
+
+  glowZone(452,248,80,50);
+  txt('falar',460,265,10,'#854F0B');
+
+  glowZone(265,92,130,90);
+  txt('! pista',330,107,10,'#854F0B','center');
+
+  zone(50,88,190,120,()=>clueLeito());
+  zone(452,248,80,50,()=>talkAna());
+  zone(265,92,130,90,()=>clueProntuario());
+}
+
+function clueLeito(){
+  const fresh=addClue('swab','Swab + no trilho da cama');
+  speak(
+    'Você examina o leito 3',
+    'O trilho da cama apresenta resíduos visíveis. O swab que você coleta dá positivo para Klebsiella pneumoniae KPC — resistente a carbapenemas.',
+    fresh ? '[ PISTA COLETADA ] Swab positivo no trilho — superfície não desinfectada após a alta anterior.' : 'Evidência já registrada.',
+    [{label:'OK',fn:()=>speak('','Clique nos objetos e personagens para investigar.','')}]
+  );
+}
+
+function clueProntuario(){
+  const fresh=addClue('prontuario','Alta sem notif. de isolamento');
+  speak(
+    'Você lê o prontuário',
+    'Paciente anterior teve alta ontem às 14h. Nenhuma anotação de isolamento de contato. A ficha de limpeza terminal está em branco.',
+    fresh ? '[ PISTA COLETADA ] Alta registrada sem ativar protocolo de limpeza terminal.' : 'Evidência já registrada.',
+    [{label:'OK',fn:()=>speak('','Clique nos objetos e personagens para investigar.','')}]
+  );
+}
+
+function talkAna(){
+  speak(
+    'Ana Cláudia — Técnica de higienização',
+    '"Eu sou responsável por 12 leitos hoje. Sozinha. Cada leito tem 18 etapas de protocolo de limpeza terminal. Quando dou conta de um, já tem outro precisando. Faço o que posso."',
+    'Ana trabalha das 6h às 14h. O quadro mínimo para o andar seria de 3 técnicas por turno — hoje são apenas ela.',
+    [
+      {label:'Perguntar sobre o leito 3', fn:()=>speak('Ana Cláudia','O leito 3 foi liberado às 14h02. Eu comecei a limpar, mas fui chamada de urgência para o leito 7. Quando voltei, a enfermagem já tinha colocado o próximo paciente. Não estava no meu protocolo ignorar — faltou tempo.')},
+      {label:'OK',fn:()=>speak('','Clique nos objetos e personagens para investigar.','')}
+    ]
+  );
+}
+
+function drawCorridor(ctx){
+  rect(0,0,W,H,'#E6F1FB','none');
+  rect(0,0,W,30,'#B5D4F4','none',0);
+  txt('Corredor — ala de recuperação',14,15,12,'#0C447C');
+
+  for(let i=0;i<7;i++){
+    rect(20+i*92,40,80,H-60,'#FFFFFF','#B4B2A9',3);
+    txt('Q.'+( i+101),60+i*92,58,10,'#888780','center');
+  }
+  rect(0,40,W,8,'#D3D1C7','none',0);
+  rect(0,H-28,W,28,'#D3D1C7','none',0);
+
+  rect(180,120,160,80,'#F1EFE8','#B4B2A9',6);
+  rect(190,128,140,20,'#D3D1C7','#B4B2A9',3);
+  rect(190,152,140,18,'#B4B2A9','#888780',3);
+  txt('maca de transferência',260,163,9,'#444441','center');
+
+  ctx.fillStyle='rgba(255,255,255,0.7)';
+  ctx.beginPath();ctx.arc(140,240,38,0,Math.PI*2);ctx.fill();
+  person(140,250,'#EF9F27','#5DCAA5','Robson\nmaqueiro');
+
+  ctx.fillStyle='rgba(255,255,255,0.7)';
+  ctx.beginPath();ctx.arc(490,240,38,0,Math.PI*2);ctx.fill();
+  person(490,250,'#D85A30','#E24B4A','Enf. Carla');
+
+  glowZone(178,115,165,90);
+  txt('! maca',260,130,10,'#854F0B','center');
+  glowZone(100,215,80,50,  'rgba(167,209,246,0.35)');
+  txt('falar',113,230,10,'#185FA5');
+  glowZone(450,215,80,50,'rgba(167,209,246,0.35)');
+  txt('falar',463,230,10,'#185FA5');
+
+  zone(178,115,165,90,()=>clueMaca());
+  zone(100,215,80,50,()=>talkRobson());
+  zone(450,215,80,50,()=>talkCarla());
+}
+
+function clueMaca(){
+  const fresh=addClue('maca','Alça de maca contaminada');
+  speak(
+    'Você examina a maca',
+    'A alça lateral da maca usada para transferir o paciente do leito 3 tem material orgânico visível. O swab confirma presença de Klebsiella KPC.',
+    fresh?'[ PISTA COLETADA ] Maca usada no transporte sem desinfecção entre transferências.':'Evidência já registrada.',
+    [{label:'OK',fn:()=>speak('','Clique nos objetos e personagens para investigar.','')}]
+  );
+}
+function talkRobson(){
+  const fresh=addClue('robson','Robson: sem ponto de higienização');
+  speak(
+    'Robson Ferreira — Maqueiro',
+    '"Eu faço 30 transportes por turno. UTI, raio-x, centro cirúrgico, recuperação... Para em algum lugar para desinfetar a maca? Não tem ponto fixo de higienização no percurso. Nunca teve."',
+    fresh?'[ PISTA COLETADA ] Ausência de protocolo de desinfecção de maca entre transportes.':'Já registrado.',
+    [
+      {label:'Perguntar sobre protocolo',fn:()=>speak('Robson Ferreira','"Me ensinaram a lavar as mãos. Maca, ninguém me falou nada. Descobri que devia fazer só quando a CCIH fez uma ronda aqui uns 3 meses atrás — e depois não mudou nada."')},
+      {label:'OK',fn:()=>speak('','Clique nos objetos e personagens para investigar.','')}
+    ]
+  );
+}
+function talkCarla(){
+  speak(
+    'Enfermeira Carla — Ala de recuperação',
+    '"Quando o paciente chegou eu estranhei — não veio sinalização de isolamento de contato. Liguei para a UTI mas a enfermeira que sabia já tinha saído no turno. Fiz a precaução padrão e abri uma ocorrência."',
+    null,
+    [{label:'OK',fn:()=>speak('','Clique nos objetos e personagens para investigar.','')}]
+  );
+}
+
+function drawLab(ctx){
+  rect(0,0,W,H,'#EAF3DE','none');
+  rect(0,0,W,30,'#C0DD97','none',0);
+  txt('Laboratório de microbiologia',14,15,12,'#27500A');
+
+  rect(30,45,W-60,H-60,'#FFFFFF','#C0DD97',8);
+
+  rect(50,65,160,120,'#F1EFE8','#B4B2A9',4);
+  txt('amostras',130,77,10,'#5F5E5A','center');
+  for(let i=0;i<3;i++){
+    rect(62+i*42,90,28,60,'#E6F1FB','#85B7EB',14);
+    txt(i===0?'☆':'✓',76+i*42,130,12,'#378ADD','center');
+  }
+  txt('tubo 1 = leito 3',130,152,9,'#888780','center');
+
+  rect(240,65,180,120,'#F1EFE8','#B4B2A9',4);
+  txt('antibiograma',330,77,10,'#5F5E5A','center');
+  rect(250,90,160,80,'#FFFFFF','#D3D1C7',4);
+  txt('Klebsiella KPC',330,115,11,'#A32D2D','center','500');
+  txt('Resistente: carbapenemas',330,133,9,'#791F1F','center');
+  txt('Hora do laudo: +22h',330,151,9,'#888780','center');
+
+  rect(450,65,160,120,'#FAEEDA','#FAC775',4);
+  txt('fila de processamento',530,77,10,'#633806','center');
+  for(let i=0;i<5;i++) rect(462+i*26,90,20,60,'#FFFFFF','#FAC775',10);
+  txt('200+ amostras/dia',530,165,9,'#854F0B','center');
+
+  ctx.fillStyle='rgba(255,255,255,0.7)';
+  ctx.beginPath();ctx.arc(120,255,36,0,Math.PI*2);ctx.fill();
+  person(120,264,'#D85A30','#1D9E75','Fernanda\nbiomedica');
+
+  glowZone(240,60,180,125,'rgba(232,74,74,0.12)');
+  txt('! resultado',330,75,10,'#A32D2D','center');
+  glowZone(80,215,80,50,'rgba(200,230,200,0.5)');
+  txt('falar',90,232,10,'#27500A');
+  glowZone(50,60,165,125,'rgba(200,230,200,0.25)');
+  txt('amostras',130,72,10,'#3B6D11','center');
+
+  zone(240,60,180,125,()=>clueAntibiograma());
+  zone(80,215,80,50,()=>talkFernanda());
+  zone(50,60,165,125,()=>clueAmostra());
+}
+
+function clueAntibiograma(){
+  const fresh=addClue('antibiograma','Laudo com 22h de atraso');
+  speak(
+    'Você analisa o antibiograma',
+    'O laudo de resistência da Klebsiella KPC foi emitido 22 horas após a coleta. Nesse intervalo, o paciente circulou pelo hospital sem precauções de contato completas.',
+    fresh?'[ PISTA COLETADA ] Atraso no laudo = 22h de janela de transmissão sem isolamento.':'Já registrado.',
+    [{label:'OK',fn:()=>speak('','Clique nos objetos e personagens para investigar.','')}]
+  );
+}
+function clueAmostra(){
+  speak(
+    'Você examina os tubos de amostra',
+    'O tubo 1 — do leito 3 — chegou ao laboratório sem marcação de prioridade epidemiológica. Sem essa sinalização, ele entrou na fila normal de 200+ amostras diárias.',
+    null,
+    [{label:'OK',fn:()=>speak('','Clique nos objetos e personagens para investigar.','')}]
+  );
+}
+function talkFernanda(){
+  const fresh=addClue('fernanda','Sistema sem alerta automático');
+  speak(
+    'Fernanda Luz — Biomédica',
+    '"Quando o resultado ficou pronto eu coloquei no sistema e notifiquei o médico solicitante. Mas não tem alerta automático para a CCIH quando isolamos um KPC. Eu precisaria ligar manualmente — e nesse dia eu estava sozinha processando 230 amostras."',
+    fresh?'[ PISTA COLETADA ] Sem integração lab → CCIH para agentes críticos.':'Já registrado.',
+    [
+      {label:'Perguntar sobre carga de trabalho',fn:()=>speak('Fernanda Luz','"O laboratório recebe amostras de 300 leitos mais PS e ambulatório. Somos 2 biomédicos por turno. A triagem de emergência epidemiológica não está no protocolo formal — cada um faz o que pode."')},
+      {label:'OK',fn:()=>speak('','Clique nos objetos e personagens para investigar.','')}
+    ]
+  );
+}
+
+function drawReport(ctx){
+  rect(0,0,W,H,'#EEEDFE','none');
+  rect(0,0,W,30,'#AFA9EC','none',0);
+  txt('Relatório final — Operação Mãos Limpas',14,15,12,'#26215C');
+
+  const chain=[
+    {c:'#FCEBEB',b:'#F09595',t:'UTI · leito 3',s:'Superfície não desinfectada (subdimensionamento)'},
+    {c:'#FAEEDA',b:'#EF9F27',t:'Maca de transporte',s:'Sem protocolo de higienização entre usos'},
+    {c:'#E6F1FB',b:'#85B7EB',t:'Laboratório',s:'Laudo KPC com 22h de atraso, sem alerta'},
+    {c:'#E1F5EE',b:'#5DCAA5',t:'CCIH notificada tarde',s:'1 enfermeira / 300 leitos, sem sistema integrado'},
+  ];
+  chain.forEach((ch,i)=>{
+    rect(38+i*155,50,140,70,ch.c,ch.b,6);
+    txt(ch.t,108+i*155,75,11,'#2C2C2A','center','500');
+    ctx.font='9px sans-serif';ctx.fillStyle='#5F5E5A';ctx.textAlign='center';ctx.textBaseline='middle';
+    const words=ch.s.split(' ');
+    let line='',lines=[],y=91;
+    for(const w of words){if((line+w).length>22){lines.push(line.trim());line='';}line+=w+' ';}
+    lines.push(line.trim());
+    lines.forEach((l,j)=>ctx.fillText(l,108+i*155,y+j*11));
+    if(i<3){
+      ctx.strokeStyle='#AFA9EC';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(178+i*155,85);ctx.lineTo(192+i*155,85);
+      ctx.stroke();
+      ctx.beginPath();ctx.moveTo(188+i*155,80);ctx.lineTo(195+i*155,85);ctx.lineTo(188+i*155,90);ctx.stroke();
+    }
+  });
+
+  rect(38,145,W-76,50,'#FFFFFF','#AFA9EC',6);
+  txt('Trabalhadores invisíveis neste caso:',55,162,11,'#26215C','left','500');
+  const workers=['Higienização · Ana C.','Maqueiro · Robson','Biomédica · Fernanda','Enf. vigilância · Patrícia'];
+  workers.forEach((w,i)=>txt(w,55+i*150,178,10,'#534AB7'));
+
+  rect(38,208,W-76,75,'#F1EFE8','#5DCAA5',6);
+  txt('Conclusão do caso',55,222,12,'#085041','left','500');
+  ctx.font='11px sans-serif';ctx.fillStyle='#0F6E56';ctx.textAlign='left';ctx.textBaseline='middle';
+  const lines2=[
+    'A bactéria não se espalhou por descuido individual. Cada profissional seguiu o que',
+    'foi ensinado — e as lacunas eram estruturais: equipe subdimensionada, ausência de',
+    'protocolos para equipamentos móveis, sistemas não integrados. Tornar esses',
+    'trabalhadores visíveis é o primeiro passo para mudar o sistema.'
+  ];
+  lines2.forEach((l,i)=>ctx.fillText(l,50,238+i*13));
+
+  clues.length<5 && txt('(colete 5+ pistas para desbloquear)',W/2,160,12,'#888780','center');
+}
+
+window.addEventListener('load',initCanvas);
+</script>
