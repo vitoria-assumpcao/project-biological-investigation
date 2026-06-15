@@ -2,6 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://iyn18gr3u8qh" path="res://Assets/image.png" id="1_a08jt"]
 [ext_resource type="Texture2D" uid="uid://gdd8lwhfp1ub" path="res://Assets/topdown_hospital_Assets/Spritesheets/spritesheet_hospital_01.png" id="2_nfi70"]
+[ext_resource type="Texture2D" uid="uid://cbaqryqdeje2x" path="res://Assets/paredes.png" id="3_nfi70"]
+[ext_resource type="Texture2D" uid="uid://bpy68d6eqxilq" path="res://Assets/topdown_hospital_Assets/Spritesheets/spritesheet_hospital_02.png" id="4_al6hw"]
+[ext_resource type="Texture2D" uid="uid://f15sgda1irp5" path="res://Assets/topdown_hospital_Assets/Spritesheets/spritesheet_hospital_lab.png" id="5_yccpa"]
+[ext_resource type="Texture2D" uid="uid://d2pcnf1c6iorr" path="res://Assets/topdown_hospital_Assets/Spritesheets/spritesheet_hospital_maternity.png" id="6_vcytd"]
+[ext_resource type="PackedScene" uid="uid://cwdgcs745s6uu" path="res://Scenes/duto_ex.tscn" id="7_yccpa"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v1qfn"]
 texture = ExtResource("1_a08jt")
@@ -60,8 +65,292 @@ texture = ExtResource("2_nfi70")
 3:6/0 = 0
 4:6/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yjuom"]
+texture = ExtResource("3_nfi70")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+0:2/0 = 0
+6:2/0 = 0
+0:3/0 = 0
+6:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_6whob"]
 sources/0 = SubResource("TileSetAtlasSource_hh5uf")
+sources/1 = SubResource("TileSetAtlasSource_yjuom")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nfi70"]
+texture = ExtResource("2_nfi70")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_yjuom"]
+sources/0 = SubResource("TileSetAtlasSource_nfi70")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_frc0e"]
+texture = ExtResource("2_nfi70")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lnt0h"]
+texture = ExtResource("4_al6hw")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g1544"]
+texture = ExtResource("5_yccpa")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nh1ep"]
+texture = ExtResource("6_vcytd")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+0:5/0 = 0
+0:6/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_al6hw"]
+sources/0 = SubResource("TileSetAtlasSource_frc0e")
+sources/1 = SubResource("TileSetAtlasSource_lnt0h")
+sources/2 = SubResource("TileSetAtlasSource_g1544")
+sources/3 = SubResource("TileSetAtlasSource_nh1ep")
 
 [node name="Node2D" type="Node2D" unique_id=763903031]
 
@@ -70,4 +359,35 @@ tile_map_data = PackedByteArray("AAADAAIAAQAAAAAAAAADAAMAAQAAAAAAAAADAAQAAQAAAAA
 tile_set = SubResource("TileSet_hh5uf")
 
 [node name="PortaUTI" type="TileMapLayer" parent="." unique_id=213740856]
+tile_map_data = PackedByteArray("AAAOAAgAAQACAAQAAAAOAAkAAQACAAUAAAAPAAgAAQADAAQAAAAPAAkAAQADAAUAAAAQAAgAAQAEAAQAAAAQAAkAAQAEAAUAAAASAAgAAQAFAAQAAAASAAkAAQAFAAUAAAARAAgAAQAFAAQAAAARAAkAAQAFAAUAAAANAAgAAQAFAAQAAAANAAkAAQAFAAUAAAALAAgAAQAFAAQAAAALAAkAAQAFAAUAAAAMAAgAAQAFAAQAAAAMAAkAAQAFAAUAAAAKAAgAAQAFAAQAAAAKAAkAAQAFAAUAAAAIAAgAAQAFAAQAAAAIAAkAAQAFAAUAAAAJAAgAAQAFAAQAAAAJAAkAAQAFAAUAAAAHAAgAAQAFAAQAAAAHAAkAAQAFAAUAAAAGAAgAAQAFAAQAAAAGAAkAAQAFAAUAAAAFAAgAAQAFAAQAAAAFAAkAAQAFAAUAAAAEAAgAAQAFAAQAAAAEAAkAAQAFAAUAAAATAAgAAQAGAAQAAAATAAkAAQAGAAUAAAADAAgAAQAAAAQAAAADAAkAAQAAAAUAAAADAAcAAQAAAAMAAAATAAYAAQAGAAIAAAATAAcAAQAGAAMAAAATAAQAAQAGAAIAAAATAAUAAQAGAAMAAAATAAIAAQAGAAIAAAATAAMAAQAGAAMAAAADAAUAAQAAAAMAAAADAAYAAQAAAAMAAAADAAIAAQAAAAIAAAADAAMAAQAAAAMAAAADAAQAAQAAAAIAAAATAAAAAQAGAAAAAAATAAEAAQAGAAEAAAADAAAAAQAAAAAAAAADAAEAAQAAAAEAAAAEAAAAAQACAAAAAAAEAAEAAQACAAEAAAAGAAAAAQACAAAAAAAGAAEAAQACAAEAAAAFAAAAAQACAAAAAAAFAAEAAQACAAEAAAAHAAAAAQACAAAAAAAHAAEAAQACAAEAAAAJAAAAAQACAAAAAAAJAAEAAQACAAEAAAALAAAAAQACAAAAAAALAAEAAQACAAEAAAAOAAAAAQACAAAAAAAOAAEAAQACAAEAAAASAAAAAQACAAAAAAASAAEAAQACAAEAAAAQAAAAAQACAAAAAAAQAAEAAQACAAEAAAARAAAAAQACAAAAAAARAAEAAQACAAEAAAAPAAAAAQACAAAAAAAPAAEAAQACAAEAAAANAAAAAQACAAAAAAANAAEAAQACAAEAAAAMAAAAAQACAAAAAAAMAAEAAQACAAEAAAAKAAAAAQACAAAAAAAKAAEAAQACAAEAAAAIAAAAAQACAAAAAAAIAAEAAQACAAEAAAA=")
 tile_set = SubResource("TileSet_6whob")
+
+[node name="camas" type="TileMapLayer" parent="." unique_id=600504562]
+tile_map_data = PackedByteArray("AAAGAAIAAAACAAAAAAAGAAMAAAACAAEAAAADAAUAAAADAAEAAAADAAYAAAADAAIAAAAEAAUAAAAEAAEAAAAEAAYAAAAEAAIAAAAKAAIAAAACAAAAAAAKAAMAAAACAAEAAAA=")
+tile_set = SubResource("TileSet_yjuom")
+
+[node name="acessórios" type="TileMapLayer" parent="." unique_id=469323543]
+tile_map_data = PackedByteArray("AAAFAAEAAAABAAMAAAAFAAIAAAAAAAQAAAAHAAEAAAAFAAAAAAAHAAIAAAAFAAEAAAAEAAEAAAAHAAAAAAAEAAIAAAAHAAEAAAAGAAMAAAADAAQAAAADAAQAAAAFAAAAAAADAAUAAAAFAAEAAAAFAAQAAAAHAAAAAAAFAAUAAAAHAAEAAAAEAAUAAAAEAAMAAAAEAAYAAAAEAAQAAAAJAAEAAAABAAAAAAAJAAIAAAABAAEAAAALAAEAAAABAAMAAAALAAIAAAAAAAQAAAAKAAIAAAAFAAMAAAAKAAMAAAAFAAQAAAAMAAEAAAAHAAAAAAAMAAIAAAAHAAEAAAAPAAEAAAADAAUAAAAPAAIAAAADAAYAAAARAAEAAAADAAUAAAARAAIAAAADAAYAAAAQAAEAAAAGAAAAAAAQAAIAAAAGAAEAAAASAAMAAQAEAAYAAAASAAQAAQAEAAcAAAATAAMAAQAFAAYAAAATAAQAAQAFAAcAAAATAAUAAQAHAAAAAAA=")
+tile_set = SubResource("TileSet_al6hw")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=316359304]
+
+[node name="Node2D" parent="." unique_id=948373494 instance=ExtResource("7_yccpa")]
+position = Vector2(222, 16)
+
+[node name="DialogBox" parent="Node2D" index="2" unique_id=1740924283]
+position = Vector2(-30, 60)
+
+[node name="Label" parent="Node2D/DialogBox" index="0" unique_id=277275583]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.381
+anchor_right = 0.5
+anchor_bottom = 0.381
+offset_left = -141.0
+offset_top = -48.480003
+offset_right = -17.0
+offset_bottom = -31.480001
+metadata/_edit_use_anchors_ = true
+
+[editable path="Node2D"]
