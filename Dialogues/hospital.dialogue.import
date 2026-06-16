@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://jaqsoqgphbjf"
+path="res://.godot/imported/hospital.dialogue-1d04ca863b8528a7d16334ce4d9aeb57.tres"
+
+[deps]
+
+source_file="res://Dialogues/hospital.dialogue"
+dest_files=["res://.godot/imported/hospital.dialogue-1d04ca863b8528a7d16334ce4d9aeb57.tres"]
+
+[params]
+
+defaults=true

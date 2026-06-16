@@ -1,13 +1,12 @@
-[gd_scene format=4 uid="uid://bfqi07v2o6t6q"]
+[gd_scene format=4 uid="uid://du6heb3fv5lj5"]
 
-[ext_resource type="Texture2D" uid="uid://x7y3auwlim6f" path="res://Assets/Hospital.png" id="1_ghvep"]
-[ext_resource type="Texture2D" uid="uid://dn1u7cm32rwko" path="res://Assets/Gemini_Generated_Image_g9wnm4g9wnm4g9wn.png" id="1_jkyle"]
-[ext_resource type="Texture2D" uid="uid://chb0s6ulggogy" path="res://Assets/Design sem nome (1).png" id="3_wtxvh"]
-[ext_resource type="Script" uid="uid://bwa8l8i0hpfss" path="res://scripts/interactable.gd" id="4_mifkr"]
-[ext_resource type="Script" uid="uid://cdhkl3r2qy7de" path="res://scripts/scene_door.gd" id="5_j543l"]
+[ext_resource type="Texture2D" uid="uid://dn1u7cm32rwko" path="res://Assets/Gemini_Generated_Image_g9wnm4g9wnm4g9wn.png" id="1_2tnob"]
+[ext_resource type="Script" uid="uid://x43gf12c5y77" path="res://scripts/auto_dialogue.gd" id="1_yltdn"]
+[ext_resource type="Texture2D" uid="uid://x7y3auwlim6f" path="res://Assets/Hospital.png" id="2_yltdn"]
+[ext_resource type="Texture2D" uid="uid://ct5cxk88nqd1w" path="res://Assets/Gemini_Generated_Image_u8tzx6u8tzx6u8tz-removebg-preview.png" id="3_s8w3x"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jkyle"]
-texture = ExtResource("1_ghvep")
+texture = ExtResource("2_yltdn")
 2:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0
@@ -82,52 +81,23 @@ texture = ExtResource("1_ghvep")
 [sub_resource type="TileSet" id="TileSet_wtxvh"]
 sources/0 = SubResource("TileSetAtlasSource_jkyle")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wtxvh"]
-size = Vector2(71, 45)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mifkr"]
-size = Vector2(20, 24)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oaxs7"]
-
 [node name="Node2D" type="Node2D" unique_id=1617113149]
+script = ExtResource("1_yltdn")
+dialogue_file = "uid://cyb41lcwus0ra"
+dialogue_title = null
+start_delay = null
+next_scene = "uid://bfqi07v2o6t6q"
 
 [node name="céu_grama" type="Sprite2D" parent="." unique_id=1277819982]
 position = Vector2(162.99998, 77)
 scale = Vector2(0.13, 0.13)
-texture = ExtResource("1_jkyle")
+texture = ExtResource("1_2tnob")
 
 [node name="Hospital" type="TileMapLayer" parent="." unique_id=1737770677]
 tile_map_data = PackedByteArray("AAALAAEAAAAAAAEAAAALAAIAAAAAAAIAAAALAAMAAAAAAAMAAAALAAQAAAAAAAQAAAALAAUAAAAAAAUAAAALAAYAAAAAAAYAAAALAAcAAAAAAAcAAAALAAgAAAAAAAgAAAAMAAEAAAABAAEAAAAMAAIAAAABAAIAAAAMAAMAAAABAAMAAAAMAAQAAAABAAQAAAAMAAUAAAABAAUAAAAMAAYAAAABAAYAAAAMAAcAAAABAAcAAAAMAAgAAAABAAgAAAANAAAAAAACAAAAAAANAAEAAAACAAEAAAANAAIAAAACAAIAAAANAAMAAAACAAMAAAANAAQAAAACAAQAAAANAAUAAAACAAUAAAANAAYAAAACAAYAAAANAAcAAAACAAcAAAANAAgAAAACAAgAAAAOAAEAAAADAAEAAAAOAAIAAAADAAIAAAAOAAMAAAADAAMAAAAOAAQAAAADAAQAAAAOAAUAAAADAAUAAAAOAAYAAAADAAYAAAAOAAcAAAADAAcAAAAOAAgAAAADAAgAAAAPAAEAAAAEAAEAAAAPAAIAAAAEAAIAAAAPAAMAAAAEAAMAAAAPAAQAAAAEAAQAAAAPAAUAAAAEAAUAAAAPAAYAAAAEAAYAAAAPAAcAAAAEAAcAAAAPAAgAAAAEAAgAAAAQAAEAAAAFAAEAAAAQAAIAAAAFAAIAAAAQAAMAAAAFAAMAAAAQAAQAAAAFAAQAAAAQAAUAAAAFAAUAAAAQAAYAAAAFAAYAAAAQAAcAAAAFAAcAAAAQAAgAAAAFAAgAAAARAAEAAAAGAAEAAAARAAIAAAAGAAIAAAARAAMAAAAGAAMAAAARAAQAAAAGAAQAAAARAAUAAAAGAAUAAAARAAYAAAAGAAYAAAARAAcAAAAGAAcAAAARAAgAAAAGAAgAAAASAAEAAAAHAAEAAAASAAIAAAAHAAIAAAASAAMAAAAHAAMAAAASAAQAAAAHAAQAAAASAAUAAAAHAAUAAAASAAYAAAAHAAYAAAASAAcAAAAHAAcAAAASAAgAAAAHAAgAAAATAAQAAAAIAAQAAAATAAUAAAAIAAUAAAATAAYAAAAIAAYAAAATAAcAAAAIAAcAAAATAAgAAAAIAAgAAAA=")
 tile_set = SubResource("TileSet_wtxvh")
 
-[node name="ambulancia" type="Sprite2D" parent="." unique_id=833094853]
-position = Vector2(119, 135.00002)
-scale = Vector2(0.062630214, 0.060879596)
-texture = ExtResource("3_wtxvh")
-
-[node name="Area2D_AMBULANCE" type="Area2D" parent="." unique_id=494867452]
-script = ExtResource("4_mifkr")
-dialogue_file = "uid://jaqsoqgphbjf"
-dialogue_title = "ambulancia"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_AMBULANCE" unique_id=2105068786]
-position = Vector2(116.5, 133.5)
-shape = SubResource("RectangleShape2D_wtxvh")
-
-[node name="Area2D_window" type="Area2D" parent="." unique_id=1791060616]
-script = ExtResource("4_mifkr")
-dialogue_file = "uid://jaqsoqgphbjf"
-dialogue_title = "janela"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_window" unique_id=552392085]
-position = Vector2(268, 71)
-shape = SubResource("RectangleShape2D_mifkr")
-
-[node name="Area2D_DOOR" type="Area2D" parent="." unique_id=1307193893]
-script = ExtResource("5_j543l")
-next_scene = "uid://c330nlqj0ocwm"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_DOOR" unique_id=598325245]
-position = Vector2(220, 136)
-shape = SubResource("RectangleShape2D_oaxs7")
+[node name="médica infectologista" type="Sprite2D" parent="." unique_id=493966432]
+position = Vector2(51, 115.00001)
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("3_s8w3x")

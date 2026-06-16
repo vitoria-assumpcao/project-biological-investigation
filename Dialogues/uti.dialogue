@@ -1,0 +1,68 @@
+~ duto
+
+Você: (examina a grade de ventilação)
+O duto está infectado. Há um acúmulo visível de poeira escura e uma mancha úmida nas bordas das lâminas.
+Dra. Renata: Isso é sinal de biofilme. Em condições normais, o sistema de climatização deveria ter manutenção periódica de limpeza dos dutos e filtros. Vamos anotar isso.
+=> END
+
+
+~ prontuario
+
+Você: (abre o prontuário pendurado na cabeceira)
+Admissão: 12/11. Queixa: febre, tosse seca, dispneia.
+Antibiótico empírico iniciado: sem resposta em 48h.
+Dra. Renata: Legionella não responde a penicilinas — responde a macrolídeos e fluoroquinolonas. O fato de o antibiótico padrão não ter funcionado é um sinal importante.
+=> END
+
+
+~ registro_manutencao
+
+Você: (lê a prancheta de manutenção predial)
+Sistema HVAC — Última limpeza de dutos: (em branco)
+Última troca de filtro: 14 meses atrás.
+Empresa responsável: contrato encerrado em março. Renovação: pendente com setor de compras.
+Dra. Renata: Esse campo em branco é muito importante. O PMOC é obrigatório por lei. Quando o contrato com a empresa terceirizada foi encerrado, a limpeza dos dutos parou.
+Dra. Renata: Isso não é negligência de uma pessoa. É um processo burocrático que travou. Mas o resultado, para a bactéria, é o mesmo: tempo para crescer.
+=> END
+
+
+~ iolanda
+
+Dona Iolanda: Posso ajudar em alguma coisa?
+
+- A senhora notou algo diferente nos últimos dias? => notou_diferente
+- Qual é o trabalho da senhora aqui na UTI? => trabalho_iolanda
+- Quanto tempo a senhora trabalha aqui? => tempo_iolanda
+- Por agora, é só isso. => END
+
+~ notou_diferente
+Dona Iolanda: Olha... o ar aqui tá estranho faz tempo. Aquela grade ali — eu sempre reportei pro setor de manutenção que tava com cheiro diferente quando ligava o ar. Eles disseram que iam ver. Isso foi em julho. Já é novembro.
+Dona Iolanda: Eu limpo tudo que consigo alcançar. Mas duto de ventilação não é minha responsabilidade — não tenho treinamento nem equipamento pra isso. Precisa de empresa especializada.
+=> iolanda
+
+~ trabalho_iolanda
+Dona Iolanda: Eu desinfecto os leitos, o chão, as superfícies de alto toque. São 23 pontos de contato por leito, 8 leitos por turno. Faço isso três vezes por dia.
+Dona Iolanda: Sabe o que é engraçado? Quando eu faço meu trabalho direito, não tem infecção. Aí ninguém fala de mim. Quando tem infecção, todo mundo olha pra equipe de limpeza primeiro. Mesmo quando o problema tá no teto.
+=> iolanda
+
+~ tempo_iolanda
+Dona Iolanda: Dezoito anos. Já vi médico chegar como residente e virar chefe de clínica. E eu tô aqui, todo dia, de segunda a sábado.
+Dona Iolanda: Meu nome não aparece em nenhum relatório de qualidade. Mas se eu faltar uma semana, o hospital sente.
+=> iolanda
+
+
+~ marcos
+
+Enf. Marcos: Estamos em protocolo de isolamento de contato e aerossóis desde ontem. Já transferi os dois casos mais graves para leitos com pressão negativa.
+
+- Você já tinha recebido algum alerta sobre o sistema de ventilação? => alerta_marcos
+- Quantos casos são no total? => casos_marcos
+- Por agora, é só isso. => END
+
+~ alerta_marcos
+Enf. Marcos: A Iolanda falou sobre o cheiro umas três vezes. Eu abri chamado de manutenção em agosto. O chamado ficou em fila porque o contrato com a empresa tava em processo de renovação. Não foi ignorância — foi burocracia.
+=> marcos
+
+~ casos_marcos
+Enf. Marcos: Sete pacientes internados, dois funcionários. Todos com sintomas iniciados entre o dia 10 e o dia 14 deste mês. Mesmo padrão clínico, mesmo andar.
+=> marcos

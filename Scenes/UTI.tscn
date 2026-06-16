@@ -6,7 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bpy68d6eqxilq" path="res://Assets/topdown_hospital_Assets/Spritesheets/spritesheet_hospital_02.png" id="4_al6hw"]
 [ext_resource type="Texture2D" uid="uid://f15sgda1irp5" path="res://Assets/topdown_hospital_Assets/Spritesheets/spritesheet_hospital_lab.png" id="5_yccpa"]
 [ext_resource type="Texture2D" uid="uid://d2pcnf1c6iorr" path="res://Assets/topdown_hospital_Assets/Spritesheets/spritesheet_hospital_maternity.png" id="6_vcytd"]
-[ext_resource type="PackedScene" uid="uid://cwdgcs745s6uu" path="res://Scenes/duto_ex.tscn" id="7_yccpa"]
+[ext_resource type="Texture2D" uid="uid://bnmmxupa1pg5e" path="res://Assets/duto.png" id="7_vcytd"]
+[ext_resource type="Script" uid="uid://bwa8l8i0hpfss" path="res://scripts/interactable.gd" id="8_lnt0h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v1qfn"]
 texture = ExtResource("1_a08jt")
@@ -352,6 +353,9 @@ sources/1 = SubResource("TileSetAtlasSource_lnt0h")
 sources/2 = SubResource("TileSetAtlasSource_g1544")
 sources/3 = SubResource("TileSetAtlasSource_nh1ep")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g1544"]
+size = Vector2(25, 18)
+
 [node name="Node2D" type="Node2D" unique_id=763903031]
 
 [node name="ChaoUTI" type="TileMapLayer" parent="." unique_id=1995923060]
@@ -366,28 +370,26 @@ tile_set = SubResource("TileSet_6whob")
 tile_map_data = PackedByteArray("AAAGAAIAAAACAAAAAAAGAAMAAAACAAEAAAADAAUAAAADAAEAAAADAAYAAAADAAIAAAAEAAUAAAAEAAEAAAAEAAYAAAAEAAIAAAAKAAIAAAACAAAAAAAKAAMAAAACAAEAAAA=")
 tile_set = SubResource("TileSet_yjuom")
 
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=316359304]
+
 [node name="acessórios" type="TileMapLayer" parent="." unique_id=469323543]
 tile_map_data = PackedByteArray("AAAFAAEAAAABAAMAAAAFAAIAAAAAAAQAAAAHAAEAAAAFAAAAAAAHAAIAAAAFAAEAAAAEAAEAAAAHAAAAAAAEAAIAAAAHAAEAAAAGAAMAAAADAAQAAAADAAQAAAAFAAAAAAADAAUAAAAFAAEAAAAFAAQAAAAHAAAAAAAFAAUAAAAHAAEAAAAEAAUAAAAEAAMAAAAEAAYAAAAEAAQAAAAJAAEAAAABAAAAAAAJAAIAAAABAAEAAAALAAEAAAABAAMAAAALAAIAAAAAAAQAAAAKAAIAAAAFAAMAAAAKAAMAAAAFAAQAAAAMAAEAAAAHAAAAAAAMAAIAAAAHAAEAAAAPAAEAAAADAAUAAAAPAAIAAAADAAYAAAARAAEAAAADAAUAAAARAAIAAAADAAYAAAAQAAEAAAAGAAAAAAAQAAIAAAAGAAEAAAASAAMAAQAEAAYAAAASAAQAAQAEAAcAAAATAAMAAQAFAAYAAAATAAQAAQAFAAcAAAATAAUAAQAHAAAAAAA=")
 tile_set = SubResource("TileSet_al6hw")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=316359304]
+[node name="Node2D2" type="Node2D" parent="." unique_id=2116783625]
 
-[node name="Node2D" parent="." unique_id=948373494 instance=ExtResource("7_yccpa")]
-position = Vector2(222, 16)
+[node name="Sprite2D" type="Sprite2D" parent="Node2D2" unique_id=626969087]
+position = Vector2(223, 13)
+scale = Vector2(0.71875, 0.59375)
+texture = ExtResource("7_vcytd")
 
-[node name="DialogBox" parent="Node2D" index="2" unique_id=1740924283]
-position = Vector2(-30, 60)
+[node name="Area2D" type="Area2D" parent="Node2D2" unique_id=98684916]
+script = ExtResource("8_lnt0h")
+dialogue_file = "uid://cm2o2mnfdvr70"
+dialogue_title = "duto"
+clue_id = "swab"
+clue_label = "Grade da UTI — biofilme"
 
-[node name="Label" parent="Node2D/DialogBox" index="0" unique_id=277275583]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.381
-anchor_right = 0.5
-anchor_bottom = 0.381
-offset_left = -141.0
-offset_top = -48.480003
-offset_right = -17.0
-offset_bottom = -31.480001
-metadata/_edit_use_anchors_ = true
-
-[editable path="Node2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D2/Area2D" unique_id=626628381]
+position = Vector2(223, 13)
+shape = SubResource("RectangleShape2D_g1544")
