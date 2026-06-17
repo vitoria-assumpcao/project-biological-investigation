@@ -1,9 +1,9 @@
 [gd_scene format=4 uid="uid://du6heb3fv5lj5"]
 
-[ext_resource type="Texture2D" uid="uid://dn1u7cm32rwko" path="res://Assets/Gemini_Generated_Image_g9wnm4g9wnm4g9wn.png" id="1_2tnob"]
 [ext_resource type="Script" uid="uid://x43gf12c5y77" path="res://scripts/auto_dialogue.gd" id="1_yltdn"]
+[ext_resource type="Texture2D" uid="uid://bqua2jlmbctf" path="res://Assets/fundo_prologo.png" id="2_2tnob"]
 [ext_resource type="Texture2D" uid="uid://x7y3auwlim6f" path="res://Assets/Hospital.png" id="2_yltdn"]
-[ext_resource type="Texture2D" uid="uid://ct5cxk88nqd1w" path="res://Assets/Gemini_Generated_Image_u8tzx6u8tzx6u8tz-removebg-preview.png" id="3_s8w3x"]
+[ext_resource type="Texture2D" uid="uid://5xt0qiic6hs8" path="res://Assets/retrato_renata.png" id="4_2tnob"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jkyle"]
 texture = ExtResource("2_yltdn")
@@ -91,13 +91,14 @@ next_scene = "uid://bfqi07v2o6t6q"
 [node name="céu_grama" type="Sprite2D" parent="." unique_id=1277819982]
 position = Vector2(162.99998, 77)
 scale = Vector2(0.13, 0.13)
-texture = ExtResource("1_2tnob")
+texture = ExtResource("2_2tnob")
 
 [node name="Hospital" type="TileMapLayer" parent="." unique_id=1737770677]
 tile_map_data = PackedByteArray("AAALAAEAAAAAAAEAAAALAAIAAAAAAAIAAAALAAMAAAAAAAMAAAALAAQAAAAAAAQAAAALAAUAAAAAAAUAAAALAAYAAAAAAAYAAAALAAcAAAAAAAcAAAALAAgAAAAAAAgAAAAMAAEAAAABAAEAAAAMAAIAAAABAAIAAAAMAAMAAAABAAMAAAAMAAQAAAABAAQAAAAMAAUAAAABAAUAAAAMAAYAAAABAAYAAAAMAAcAAAABAAcAAAAMAAgAAAABAAgAAAANAAAAAAACAAAAAAANAAEAAAACAAEAAAANAAIAAAACAAIAAAANAAMAAAACAAMAAAANAAQAAAACAAQAAAANAAUAAAACAAUAAAANAAYAAAACAAYAAAANAAcAAAACAAcAAAANAAgAAAACAAgAAAAOAAEAAAADAAEAAAAOAAIAAAADAAIAAAAOAAMAAAADAAMAAAAOAAQAAAADAAQAAAAOAAUAAAADAAUAAAAOAAYAAAADAAYAAAAOAAcAAAADAAcAAAAOAAgAAAADAAgAAAAPAAEAAAAEAAEAAAAPAAIAAAAEAAIAAAAPAAMAAAAEAAMAAAAPAAQAAAAEAAQAAAAPAAUAAAAEAAUAAAAPAAYAAAAEAAYAAAAPAAcAAAAEAAcAAAAPAAgAAAAEAAgAAAAQAAEAAAAFAAEAAAAQAAIAAAAFAAIAAAAQAAMAAAAFAAMAAAAQAAQAAAAFAAQAAAAQAAUAAAAFAAUAAAAQAAYAAAAFAAYAAAAQAAcAAAAFAAcAAAAQAAgAAAAFAAgAAAARAAEAAAAGAAEAAAARAAIAAAAGAAIAAAARAAMAAAAGAAMAAAARAAQAAAAGAAQAAAARAAUAAAAGAAUAAAARAAYAAAAGAAYAAAARAAcAAAAGAAcAAAARAAgAAAAGAAgAAAASAAEAAAAHAAEAAAASAAIAAAAHAAIAAAASAAMAAAAHAAMAAAASAAQAAAAHAAQAAAASAAUAAAAHAAUAAAASAAYAAAAHAAYAAAASAAcAAAAHAAcAAAASAAgAAAAHAAgAAAATAAQAAAAIAAQAAAATAAUAAAAIAAUAAAATAAYAAAAIAAYAAAATAAcAAAAIAAcAAAATAAgAAAAIAAgAAAA=")
 tile_set = SubResource("TileSet_wtxvh")
 
 [node name="médica infectologista" type="Sprite2D" parent="." unique_id=493966432]
+visible = false
 position = Vector2(51, 115.00001)
 scale = Vector2(0.23, 0.23)
-texture = ExtResource("3_s8w3x")
+texture = ExtResource("4_2tnob")

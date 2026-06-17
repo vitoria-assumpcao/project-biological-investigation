@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chb0s6ulggogy"
-path="res://.godot/imported/Design sem nome (1).png-099a076c495d615fffaa8eed5c0a681b.ctex"
+uid="uid://cysyxbknn2abs"
+path="res://.godot/imported/retrato_iolanda.png-540b53dd127d4a5bec953314a593f59e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Design sem nome (1).png"
-dest_files=["res://.godot/imported/Design sem nome (1).png-099a076c495d615fffaa8eed5c0a681b.ctex"]
+source_file="res://Assets/retrato_iolanda.png"
+dest_files=["res://.godot/imported/retrato_iolanda.png-540b53dd127d4a5bec953314a593f59e.ctex"]
 
 [params]
 

@@ -29,6 +29,10 @@ var temporary_game_states: Array = []
 ## See if we are waiting for the player
 var is_waiting_for_input: bool = false
 
+## True while we're showing the last line of dialogue and waiting for the
+## player to click before the responses menu is revealed.
+var is_waiting_to_reveal_responses: bool = false
+
 ## See if we are running a long mutation and should hide the balloon
 var will_hide_balloon: bool = false
 
@@ -61,6 +65,18 @@ var mutation_cooldown: Timer = Timer.new()
 ## The label showing the name of the currently speaking character
 @onready var character_label: RichTextLabel = %CharacterLabel
 
+## The portrait image of the currently speaking character
+@onready var character_portrait: TextureRect = %CharacterPortrait
+
+## Maps a character name (exactly as written before the ":" in your .dialogue
+## files) to the path of their portrait image. Add one entry per character.
+## Use "" as the key for a fallback/no-portrait case (e.g. "Você").
+const CHARACTER_PORTRAITS: Dictionary = {
+	"Dra. Renata": "res://Assets/retrato_renata.png",
+	"Téc. Iolanda": "res://Assets/retrato_iolanda.png",
+	"Enf. Marcos": "res://Assets/retrato_marcos.png",
+}
+
 ## The label showing the currently spoken dialogue
 @onready var dialogue_label: DialogueLabel = %DialogueLabel
 
@@ -88,7 +104,7 @@ func _ready() -> void:
 		start()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_instance_valid(dialogue_line):
 		progress.visible = not dialogue_label.is_typing and dialogue_line.responses.size() == 0 and not dialogue_line.has_tag("voice")
 
@@ -127,11 +143,13 @@ func apply_dialogue_line() -> void:
 
 	progress.hide()
 	is_waiting_for_input = false
+	is_waiting_to_reveal_responses = false
 	balloon.focus_mode = Control.FOCUS_ALL
 	balloon.grab_focus()
 
 	character_label.visible = not dialogue_line.character.is_empty()
 	character_label.text = tr(dialogue_line.character, "dialogue")
+	_update_character_portrait(dialogue_line.character)
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line
@@ -139,8 +157,12 @@ func apply_dialogue_line() -> void:
 	responses_menu.hide()
 	responses_menu.responses = dialogue_line.responses
 
-	# Show our balloon
+	# Show our balloon (the container itself is NEVER hidden — only its
+	# text contents are toggled below — so it always keeps receiving
+	# gui_input correctly and never blocks the game's input).
 	balloon.show()
+	character_label.show()
+	character_portrait.visible = not dialogue_line.character.is_empty()
 	will_hide_balloon = false
 
 	dialogue_label.show()
@@ -155,8 +177,11 @@ func apply_dialogue_line() -> void:
 		await audio_stream_player.finished
 		next(dialogue_line.next_id)
 	elif dialogue_line.responses.size() > 0:
-		balloon.focus_mode = Control.FOCUS_NONE
-		responses_menu.show()
+		# Don't reveal the responses menu yet — wait for the player to
+		# click/press next first, so they have time to read the last line.
+		balloon.focus_mode = Control.FOCUS_ALL
+		balloon.grab_focus()
+		is_waiting_to_reveal_responses = true
 	elif dialogue_line.time != "":
 		var time: float = dialogue_line.text.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
 		await get_tree().create_timer(time).timeout
@@ -165,6 +190,32 @@ func apply_dialogue_line() -> void:
 		is_waiting_for_input = true
 		balloon.focus_mode = Control.FOCUS_ALL
 		balloon.grab_focus()
+
+
+## Reveal the responses menu after the player has read the last line.
+func reveal_responses() -> void:
+	is_waiting_to_reveal_responses = false
+	balloon.focus_mode = Control.FOCUS_NONE
+	# Hide only the spoken-text contents, keep the balloon container
+	# itself visible/functional so gui_input keeps working and the
+	# responses menu can take over the visual spotlight.
+	character_label.hide()
+	character_portrait.hide()
+	dialogue_label.hide()
+	responses_menu.show()
+
+
+## Updates the character portrait image based on who is currently speaking.
+## Falls back to hiding the portrait if the character has no entry in
+## CHARACTER_PORTRAITS (or if the line has no character name at all).
+func _update_character_portrait(character_name: String) -> void:
+	if character_name.is_empty() or not CHARACTER_PORTRAITS.has(character_name):
+		character_portrait.texture = null
+		character_portrait.hide()
+		return
+
+	character_portrait.texture = load(CHARACTER_PORTRAITS[character_name])
+	character_portrait.show()
 
 
 ## Go to the next line
@@ -198,6 +249,16 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 			dialogue_label.skip_typing()
 			return
 
+	# If we're waiting for the player to click before revealing the
+	# responses menu, do that here instead of advancing to a next line.
+	if is_waiting_to_reveal_responses:
+		var mouse_was_clicked: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed()
+		var next_button_was_pressed: bool = event.is_action_pressed(next_action)
+		if mouse_was_clicked or next_button_was_pressed:
+			get_viewport().set_input_as_handled()
+			reveal_responses()
+		return
+
 	if not is_waiting_for_input: return
 	if dialogue_line.responses.size() > 0: return
 
@@ -211,6 +272,9 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 
 
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
+	# Hide the responses menu before moving on. The balloon container was
+	# never hidden, so we don't need to show() it again here.
+	responses_menu.hide()
 	next(response.next_id)
 
 

@@ -6,7 +6,7 @@ extends CanvasLayer
 ## - fading in when the game first starts
 ## - fading out -> changing scene -> fading back in
 
-@export var fade_duration: float = 0.9
+@export var fade_duration: float = 0.6
 @export var fade_color: Color = Color.BLACK
 
 var _rect: ColorRect
@@ -42,7 +42,13 @@ func fade_to_scene(next_scene: String) -> void:
 	tween.tween_property(_rect, "modulate:a", 1.0, fade_duration)
 	await tween.finished
 
-	get_tree().change_scene_to_file(next_scene)
+	var ok := get_tree().change_scene_to_file(next_scene)
+	if ok != OK:
+		push_warning("Transition: failed to change scene to '%s' (error %s). Releasing mouse filter." % [next_scene, ok])
+		_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var tween_fail := create_tween()
+		tween_fail.tween_property(_rect, "modulate:a", 0.0, fade_duration)
+		return
 
 	# Wait one frame so the new scene is actually in the tree before fading in.
 	await get_tree().process_frame
@@ -51,3 +57,10 @@ func fade_to_scene(next_scene: String) -> void:
 	tween_in.tween_property(_rect, "modulate:a", 0.0, fade_duration)
 	await tween_in.finished
 	_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+
+## Emergency unlock: call this manually (e.g. from a debug key) if clicks
+## ever seem stuck/blocked across the whole game.
+func force_unlock() -> void:
+	_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_rect.modulate.a = 0.0

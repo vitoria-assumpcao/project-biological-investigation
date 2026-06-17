@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6cmg7dq4b12w"
-path="res://.godot/imported/DialogBox.png-cdd27b9a3cad2fed672db78bfce023a0.ctex"
+uid="uid://cxwy0npc3ju1y"
+path="res://.godot/imported/Iolanda_limpeza.png-dcca38a22f5f01a143303f284bee3426.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/DialogBox.png"
-dest_files=["res://.godot/imported/DialogBox.png-cdd27b9a3cad2fed672db78bfce023a0.ctex"]
+source_file="res://Assets/Iolanda_limpeza.png"
+dest_files=["res://.godot/imported/Iolanda_limpeza.png-dcca38a22f5f01a143303f284bee3426.ctex"]
 
 [params]
 

@@ -1,8 +1,8 @@
 [gd_scene format=4 uid="uid://bfqi07v2o6t6q"]
 
 [ext_resource type="Texture2D" uid="uid://x7y3auwlim6f" path="res://Assets/Hospital.png" id="1_ghvep"]
-[ext_resource type="Texture2D" uid="uid://dn1u7cm32rwko" path="res://Assets/Gemini_Generated_Image_g9wnm4g9wnm4g9wn.png" id="1_jkyle"]
-[ext_resource type="Texture2D" uid="uid://chb0s6ulggogy" path="res://Assets/Design sem nome (1).png" id="3_wtxvh"]
+[ext_resource type="Texture2D" uid="uid://bqua2jlmbctf" path="res://Assets/fundo_prologo.png" id="1_j543l"]
+[ext_resource type="Texture2D" uid="uid://dky0v213e0sl6" path="res://Assets/AMBULANCIA.png" id="3_oaxs7"]
 [ext_resource type="Script" uid="uid://bwa8l8i0hpfss" path="res://scripts/interactable.gd" id="4_mifkr"]
 [ext_resource type="Script" uid="uid://cdhkl3r2qy7de" path="res://scripts/scene_door.gd" id="5_j543l"]
 
@@ -95,7 +95,7 @@ size = Vector2(20, 24)
 [node name="céu_grama" type="Sprite2D" parent="." unique_id=1277819982]
 position = Vector2(162.99998, 77)
 scale = Vector2(0.13, 0.13)
-texture = ExtResource("1_jkyle")
+texture = ExtResource("1_j543l")
 
 [node name="Hospital" type="TileMapLayer" parent="." unique_id=1737770677]
 tile_map_data = PackedByteArray("AAALAAEAAAAAAAEAAAALAAIAAAAAAAIAAAALAAMAAAAAAAMAAAALAAQAAAAAAAQAAAALAAUAAAAAAAUAAAALAAYAAAAAAAYAAAALAAcAAAAAAAcAAAALAAgAAAAAAAgAAAAMAAEAAAABAAEAAAAMAAIAAAABAAIAAAAMAAMAAAABAAMAAAAMAAQAAAABAAQAAAAMAAUAAAABAAUAAAAMAAYAAAABAAYAAAAMAAcAAAABAAcAAAAMAAgAAAABAAgAAAANAAAAAAACAAAAAAANAAEAAAACAAEAAAANAAIAAAACAAIAAAANAAMAAAACAAMAAAANAAQAAAACAAQAAAANAAUAAAACAAUAAAANAAYAAAACAAYAAAANAAcAAAACAAcAAAANAAgAAAACAAgAAAAOAAEAAAADAAEAAAAOAAIAAAADAAIAAAAOAAMAAAADAAMAAAAOAAQAAAADAAQAAAAOAAUAAAADAAUAAAAOAAYAAAADAAYAAAAOAAcAAAADAAcAAAAOAAgAAAADAAgAAAAPAAEAAAAEAAEAAAAPAAIAAAAEAAIAAAAPAAMAAAAEAAMAAAAPAAQAAAAEAAQAAAAPAAUAAAAEAAUAAAAPAAYAAAAEAAYAAAAPAAcAAAAEAAcAAAAPAAgAAAAEAAgAAAAQAAEAAAAFAAEAAAAQAAIAAAAFAAIAAAAQAAMAAAAFAAMAAAAQAAQAAAAFAAQAAAAQAAUAAAAFAAUAAAAQAAYAAAAFAAYAAAAQAAcAAAAFAAcAAAAQAAgAAAAFAAgAAAARAAEAAAAGAAEAAAARAAIAAAAGAAIAAAARAAMAAAAGAAMAAAARAAQAAAAGAAQAAAARAAUAAAAGAAUAAAARAAYAAAAGAAYAAAARAAcAAAAGAAcAAAARAAgAAAAGAAgAAAASAAEAAAAHAAEAAAASAAIAAAAHAAIAAAASAAMAAAAHAAMAAAASAAQAAAAHAAQAAAASAAUAAAAHAAUAAAASAAYAAAAHAAYAAAASAAcAAAAHAAcAAAASAAgAAAAHAAgAAAATAAQAAAAIAAQAAAATAAUAAAAIAAUAAAATAAYAAAAIAAYAAAATAAcAAAAIAAcAAAATAAgAAAAIAAgAAAA=")
@@ -104,7 +104,7 @@ tile_set = SubResource("TileSet_wtxvh")
 [node name="ambulancia" type="Sprite2D" parent="." unique_id=833094853]
 position = Vector2(119, 135.00002)
 scale = Vector2(0.062630214, 0.060879596)
-texture = ExtResource("3_wtxvh")
+texture = ExtResource("3_oaxs7")
 
 [node name="Area2D_AMBULANCE" type="Area2D" parent="." unique_id=494867452]
 script = ExtResource("4_mifkr")
