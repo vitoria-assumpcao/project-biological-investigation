@@ -21,6 +21,8 @@ ClueManager="*uid://boavmibfwfo10"
 Transition="*uid://d138qshg810wn"
 Hud="*uid://bgpsjsculfkcg"
 Inventory="*uid://cjy5kkmbmi03s"
+Report="*uid://blwcrk88d0goj"
+Credits="*uid://c3qiswkc6gg1h"
 
 [dialogue_manager]
 
@@ -48,7 +50,7 @@ cliqueEsquerdo={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://Dialogues/prologo.dialogue", "res://Dialogues/uti.dialogue", "res://Dialogues/hospital.dialogue")
+locale/translations_pot_files=PackedStringArray("res://Dialogues/prologo.dialogue", "res://Dialogues/uti.dialogue", "res://Dialogues/hospital.dialogue", "res://Dialogues/dormitorio.dialogue", "res://Dialogues/laboratorio.dialogue", "res://Dialogues/epilogo.dialogue")
 
 [physics]
 

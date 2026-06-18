@@ -85,10 +85,86 @@ sources/0 = SubResource("TileSetAtlasSource_jkyle")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtxvh"]
 size = Vector2(71, 45)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mifkr"]
-size = Vector2(20, 24)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oaxs7"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j543l"]
+texture = ExtResource("1_ghvep")
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+8:8/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_oaxs7"]
+sources/0 = SubResource("TileSetAtlasSource_j543l")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j543l"]
+size = Vector2(20, 26)
 
 [node name="Node2D" type="Node2D" unique_id=1617113149]
 
@@ -106,28 +182,37 @@ position = Vector2(119, 135.00002)
 scale = Vector2(0.062630214, 0.060879596)
 texture = ExtResource("3_oaxs7")
 
-[node name="Area2D_AMBULANCE" type="Area2D" parent="." unique_id=494867452]
+[node name="Area2D_AMBULANCE" type="Area2D" parent="ambulancia" unique_id=494867452]
+position = Vector2(-1900.0415, -2217.492)
+scale = Vector2(15.966735, 16.425865)
 script = ExtResource("4_mifkr")
 dialogue_file = "uid://jaqsoqgphbjf"
 dialogue_title = "ambulancia"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_AMBULANCE" unique_id=2105068786]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ambulancia/Area2D_AMBULANCE" unique_id=2105068786]
 position = Vector2(116.5, 133.5)
 shape = SubResource("RectangleShape2D_wtxvh")
 
-[node name="Area2D_window" type="Area2D" parent="." unique_id=1791060616]
-script = ExtResource("4_mifkr")
-dialogue_file = "uid://jaqsoqgphbjf"
-dialogue_title = "janela"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_window" unique_id=552392085]
-position = Vector2(268, 71)
-shape = SubResource("RectangleShape2D_mifkr")
-
-[node name="Area2D_DOOR" type="Area2D" parent="." unique_id=1307193893]
+[node name="DOOR" type="Area2D" parent="." unique_id=1674123995]
 script = ExtResource("5_j543l")
 next_scene = "uid://c330nlqj0ocwm"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_DOOR" unique_id=598325245]
-position = Vector2(220, 136)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DOOR" unique_id=758146729]
+position = Vector2(220, 135)
 shape = SubResource("RectangleShape2D_oaxs7")
+
+[node name="window" type="TileMapLayer" parent="." unique_id=1421682005]
+tile_map_data = PackedByteArray("AAAQAAQAAAAFAAQAAAA=")
+tile_set = SubResource("TileSet_oaxs7")
+
+[node name="Area2D" type="Area2D" parent="window" unique_id=947700991]
+script = ExtResource("4_mifkr")
+dialogue_file = "uid://jaqsoqgphbjf"
+dialogue_title = "janela"
+enable_highlight = false
+highlight_target = NodePath("..")
+highlight_color = Color(0.51589763, 0.50153595, 1.7550965e-07, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="window/Area2D" unique_id=440733307]
+position = Vector2(268, 71)
+shape = SubResource("RectangleShape2D_j543l")

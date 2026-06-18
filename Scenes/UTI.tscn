@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://b65d6iqlrv4u7" path="res://Assets/fernando_enfermeiro.png" id="9_86r6w"]
 [ext_resource type="Texture2D" uid="uid://c2pq7rywqfqst" path="res://Assets/separado_de_leito.png" id="10_ytf8q"]
 [ext_resource type="Script" uid="uid://cdhkl3r2qy7de" path="res://scripts/scene_door.gd" id="15_vx62f"]
-[ext_resource type="Script" uid="uid://rv8i15rek8f1" path="res://scripts/scene_completion.gd" id="16_xxsap"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v1qfn"]
 texture = ExtResource("1_a08jt")
@@ -3846,7 +3845,7 @@ texture = ExtResource("2_nfi70")
 sources/0 = SubResource("TileSetAtlasSource_jgn5g")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vx62f"]
-size = Vector2(10, 12)
+size = Vector2(10, 15)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ytf8q"]
 texture = ExtResource("2_nfi70")
@@ -3929,8 +3928,8 @@ scale = Vector2(0.027459946, 0.028692883)
 texture = ExtResource("5_ytf8q")
 
 [node name="paciente_uti3" type="Sprite2D" parent="." unique_id=1274371680]
-position = Vector2(164.5, 40.999996)
-scale = Vector2(0.03993055, 0.030620463)
+position = Vector2(166.00002, 39.999996)
+scale = Vector2(0.03819449, 0.029008863)
 texture = ExtResource("6_vx62f")
 
 [node name="acessórios" type="TileMapLayer" parent="." unique_id=469323543]
@@ -3976,6 +3975,7 @@ scale = Vector2(1.3913043, 1.6842104)
 script = ExtResource("8_lnt0h")
 dialogue_file = "uid://cm2o2mnfdvr70"
 dialogue_title = "duto"
+one_shot = true
 clue_id = "uti_swab"
 clue_label = "Grade da UTI — biofilme"
 
@@ -3992,6 +3992,7 @@ tile_set = SubResource("TileSet_yecyr")
 script = ExtResource("8_lnt0h")
 dialogue_file = "uid://cm2o2mnfdvr70"
 dialogue_title = "registro_manutencao"
+one_shot = true
 clue_id = "uti_manutencao"
 clue_label = "Registro de manutenção — PMOC desatualizado"
 
@@ -4007,11 +4008,12 @@ tile_set = SubResource("TileSet_ytf8q")
 script = ExtResource("8_lnt0h")
 dialogue_file = "uid://cm2o2mnfdvr70"
 dialogue_title = "prontuario"
+one_shot = true
 clue_id = "uti_prontuario"
 clue_label = "Prontuário leito 3 — pneumonia atípica"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="prontuario_paciente3/Area2D" unique_id=1755990051]
-position = Vector2(168, 24)
+position = Vector2(168, 22.5)
 shape = SubResource("RectangleShape2D_vx62f")
 
 [node name="acessorios2" type="TileMapLayer" parent="." unique_id=1914042738]
@@ -4025,14 +4027,14 @@ texture = ExtResource("10_ytf8q")
 
 [node name="Area2D_DOOR" type="Area2D" parent="." unique_id=1586972420]
 script = ExtResource("15_vx62f")
-next_scene = "uid://bqvccqui2pd2e"
+next_scene = "uid://2uimlfuh4xca"
+required_clue_count = 3
+required_clue_prefix = "uti_"
+dialogue_file = "uid://cm2o2mnfdvr70"
+dialogue_title = "conclusao_uti"
+locked_dialogue_file = "uid://cm2o2mnfdvr70"
+locked_dialogue_title = "locked_uti"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_DOOR" unique_id=2087445748]
 position = Vector2(248, 146)
 shape = SubResource("RectangleShape2D_xxsap")
-
-[node name="final_cena" type="Node2D" parent="." unique_id=91619266]
-script = ExtResource("16_xxsap")
-scene_clue_prefix = "uti_"
-dialogue_file = "uid://cm2o2mnfdvr70"
-dialogue_title = "conclusao_uti"

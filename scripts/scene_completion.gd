@@ -1,71 +1,76 @@
 extends Node
-## Attach this to a Node in any investigation scene (e.g. as a child of the
-## scene's root). Watches ClueManager and automatically triggers a closing
-## dialogue line once all of this scene's clues have been collected.
-##
-## Configure the clue id prefix used in THIS scene (e.g. "uti_") and how many
-## clues are expected — matches the same convention used by hud.gd.
+## Attach this to a Node in any investigation scene. Watches ClueManager and
+## triggers a closing dialogue once all of this scene's clues are collected.
+## Uses a Timer-based approach instead of coroutines to avoid memory leaks.
 
-## Prefix used by this scene's clue ids (e.g. "uti_", "lab_", "dorm_")
 @export var scene_clue_prefix: String = ""
-
-## How many real clues this scene has (matches hud.gd's CLUES_PER_SCENE)
 @export var clues_required: int = 3
-
-## Path to the .dialogue resource for the closing line
 @export_file("*.dialogue") var dialogue_file: String
-
-## Which title inside the .dialogue file to play once all clues are collected
 @export var dialogue_title: String = "conclusao"
-
-## Optional small extra delay AFTER the current dialogue line finishes,
-## before showing the closing dialogue (purely cosmetic pacing).
 @export var delay_seconds: float = 0.4
+@export var show_report_after: bool = false
+@export var dialogue_title_after_report: String = ""
 
 var _already_triggered: bool = false
 var _pending: bool = false
-var _dialogue_currently_running: bool = false
+var _check_timer: Timer
 
 
 func _ready() -> void:
 	ClueManager.clue_added.connect(_on_clue_added)
-	DialogueManager.dialogue_started.connect(_on_dialogue_started)
-	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
+
+	_check_timer = Timer.new()
+	_check_timer.wait_time = 0.1
+	_check_timer.timeout.connect(_on_check_timer)
+	add_child(_check_timer)
 
 
-func _on_dialogue_started(_resource: DialogueResource) -> void:
-	_dialogue_currently_running = true
-
-
-func _on_dialogue_ended(_resource: DialogueResource) -> void:
-	_dialogue_currently_running = false
-
-
-func _on_clue_added(_clue_id: String, _clue_label: String) -> void:
+func _on_clue_added(clue_id: String, _clue_label: String) -> void:
+	print("[SceneCompletion] clue_added: ", clue_id, " | count: ", _count_scene_clues(), "/", clues_required)
 	if _already_triggered or _pending:
 		return
 	if _count_scene_clues() < clues_required:
 		return
 
+	print("[SceneCompletion] threshold reached, waiting for balloon to close...")
 	_pending = true
-	_wait_for_current_dialogue_then_show()
+	# Start polling every 0.1s to check when the balloon disappears
+	_check_timer.start()
 
 
-## The clue's own dialogue line (e.g. "duto" or "prontuario") is usually
-## about to start when this signal fires, since add_clue() runs BEFORE
-## show_dialogue_balloon() in interactable.gd — meaning dialogue_started
-## for that line hasn't fired yet at this exact instant. We wait one frame
-## to let that call happen first, then check if a dialogue is running.
-func _wait_for_current_dialogue_then_show() -> void:
-	await get_tree().process_frame
-	await get_tree().process_frame
+func _on_check_timer() -> void:
+	# Check if any balloon is currently visible in the scene tree.
+	# ExampleBalloon (the balloon scene) is a CanvasLayer added to the tree
+	# by DialogueManager while a dialogue is running and removed when done.
+	var balloon_active := false
+	for node in get_tree().get_nodes_in_group(""):
+		pass  # dummy, just warming up get_tree()
 
-	if _dialogue_currently_running:
-		await DialogueManager.dialogue_ended
+	# DialogueManager adds the balloon as a child of the current scene or root.
+	# We check if any node named "ExampleBalloon" (or containing "Balloon")
+	# exists and is visible.
+	var root := get_tree().root
+	for child in root.get_children():
+		if "Balloon" in child.name and child.visible:
+			balloon_active = true
+			break
+	# Also check inside current scene
+	if not balloon_active and get_tree().current_scene != null:
+		for child in get_tree().current_scene.get_children():
+			if "Balloon" in child.name and child.visible:
+				balloon_active = true
+				break
 
-	if delay_seconds > 0.0:
-		await get_tree().create_timer(delay_seconds).timeout
+	print("[SceneCompletion] timer check | balloon_active=", balloon_active)
 
+	if not balloon_active:
+		_check_timer.stop()
+		_trigger_closing_dialogue()
+
+
+func _trigger_closing_dialogue() -> void:
+	print("[SceneCompletion] balloon gone, triggering closing dialogue in ", delay_seconds, "s")
+	await get_tree().create_timer(delay_seconds).timeout
 	_already_triggered = true
 	_pending = false
 	_show_closing_dialogue()
@@ -78,6 +83,13 @@ func _show_closing_dialogue() -> void:
 
 	var resource: DialogueResource = load(dialogue_file)
 	DialogueManager.show_dialogue_balloon(resource, dialogue_title)
+
+	if show_report_after:
+		await DialogueManager.dialogue_ended
+		Report.open()
+		await Report.closed
+		if dialogue_title_after_report != "":
+			DialogueManager.show_dialogue_balloon(resource, dialogue_title_after_report)
 
 
 func _count_scene_clues() -> int:

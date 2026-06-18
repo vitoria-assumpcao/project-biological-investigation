@@ -1,8 +1,8 @@
 extends CanvasLayer
-## Persistent HUD showing the list of clues collected so far, top-right corner.
-## Attach this as an Autoload (Project Settings > Globals > Autoload) named "Hud",
-## OR add it as a node directly inside each playable scene — both work since
-## it just listens to ClueManager's signal and rebuilds its own list.
+## Persistent HUD showing collected clues, top-left corner.
+## Autoload named "Hud". Hides in scenes with no clue prefix.
+## Uses _process to detect scene changes instead of tree_changed signal
+## (tree_changed fires too frequently and causes coroutine accumulation).
 
 @export var corner_margin: int = 4
 @export var font_size: int = 5
@@ -10,34 +10,33 @@ extends CanvasLayer
 
 var _container: VBoxContainer
 var _title_label: Label
+var _panel: PanelContainer
+var _last_scene_name: String = ""
 
-## Every scene has exactly 3 real clues. The HUD counts only the clues whose
-## id starts with the current scene's prefix (e.g. "uti_", "lab_", "dorm_"),
-## so switching scenes doesn't carry over previous scenes' counts.
 const CLUES_PER_SCENE: int = 3
 
-## Maps a scene file name (get_tree().current_scene.scene_file_path's file
-## name, without extension) to the clue_id prefix used in that scene.
-## Add one entry per scene as you build them.
 const SCENE_PREFIXES: Dictionary = {
 	"UTI": "uti_",
-	"Laboratorio": "lab_",
-	"Dormitorio": "dorm_",
+	"Laboratório": "lab_",
+	"Dormitório": "dorm_",
 }
 
 
-func _current_scene_prefix() -> String:
+func _get_current_scene_name() -> String:
 	var scene := get_tree().current_scene
 	if scene == null:
 		return ""
-	var scene_name: String = scene.scene_file_path.get_file().get_basename()
-	return SCENE_PREFIXES.get(scene_name, "")
+	return scene.scene_file_path.get_file().get_basename()
+
+
+func _current_scene_prefix() -> String:
+	return SCENE_PREFIXES.get(_get_current_scene_name(), "")
 
 
 func _count_clues_for_current_scene() -> int:
 	var prefix: String = _current_scene_prefix()
 	if prefix == "":
-		return ClueManager.count()  # fallback: scene not mapped, count everything
+		return 0
 	var n := 0
 	for clue_id in ClueManager.collected.keys():
 		if clue_id.begins_with(prefix):
@@ -46,7 +45,7 @@ func _count_clues_for_current_scene() -> int:
 
 
 func _ready() -> void:
-	layer = 50  # below Transition (128), above gameplay
+	layer = 50
 
 	var root_control := Control.new()
 	root_control.anchor_left = 0.0
@@ -60,16 +59,16 @@ func _ready() -> void:
 	root_control.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(root_control)
 
-	var panel := PanelContainer.new()
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	root_control.add_child(panel)
+	_panel = PanelContainer.new()
+	_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root_control.add_child(_panel)
 
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 3)
 	margin.add_theme_constant_override("margin_right", 3)
 	margin.add_theme_constant_override("margin_top", 2)
 	margin.add_theme_constant_override("margin_bottom", 2)
-	panel.add_child(margin)
+	_panel.add_child(margin)
 
 	_container = VBoxContainer.new()
 	_container.alignment = BoxContainer.ALIGNMENT_BEGIN
@@ -80,21 +79,33 @@ func _ready() -> void:
 	_container.add_child(_title_label)
 
 	ClueManager.clue_added.connect(_on_clue_added)
+	_last_scene_name = _get_current_scene_name()
 	_rebuild()
 
 
+func _process(_delta: float) -> void:
+	var current := _get_current_scene_name()
+	if current != _last_scene_name:
+		_last_scene_name = current
+		_rebuild()
+
+
 func _rebuild() -> void:
-	# Clear all clue rows except the title (first child).
+	var prefix: String = _current_scene_prefix()
+	_panel.visible = prefix != ""
+
+	if prefix == "":
+		return
+
 	for i in range(_container.get_child_count() - 1, 0, -1):
 		_container.get_child(i).queue_free()
 
 	var count: int = _count_clues_for_current_scene()
 	_title_label.text = "Pistas: %d/%d" % [count, CLUES_PER_SCENE]
 
-	var prefix: String = _current_scene_prefix()
 	var keys: Array = []
 	for clue_id in ClueManager.collected.keys():
-		if prefix == "" or clue_id.begins_with(prefix):
+		if clue_id.begins_with(prefix):
 			keys.append(clue_id)
 
 	var start_index: int = max(0, keys.size() - max_visible_clues)

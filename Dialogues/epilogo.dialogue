@@ -1,0 +1,28 @@
+~ relatorio_intro
+
+Dra. Renata: Temos o quadro completo. Agora vou te pedir pra montar o relatório epidemiológico.
+=> END
+
+
+~ relatorio_fim
+
+Dra. Renata: Perfeito. Com esse laudo, o hospital vai acionar uma empresa especializada para descontaminação completa dos dutos, renovar o contrato de PMOC, e nós vamos recomendar a criação de um canal formal para que trabalhadores de campo possam registrar anomalias que cheguem diretamente à CCIH.
+Dra. Renata: Antes de encerrarmos o caso, vamos ver como o hospital respondeu à situação — e quem esteve na linha de frente dessa resposta.
+=> END
+
+
+~ epilogo_renata_final
+
+Dra. Renata: Você resolveu o caso. Mas o mais importante não foi descobrir a bactéria — foi entender a cadeia.
+Dra. Renata: Iolanda percebeu o problema. Fernanda relatou. Marcos abriu chamado. Camila isolou o agente. Cada um fez sua parte. O sistema falhou no elo burocrático — um contrato de manutenção que ninguém renovou a tempo.
+Dra. Renata: É por isso que trabalhadores como a Iolanda e a Camila são invisíveis quando tudo vai bem e aparecem quando algo falha. Nossa tarefa, como profissionais de saúde e como sociedade, é torná-los visíveis antes da próxima crise.
+=> END
+
+
+~ iolanda_final
+
+Téc. Iolanda: Eles chamaram uma empresa especializada pra limpar os dutos. Levou três dias. Agora tem um contrato novo, com manutenção semestral.
+Téc. Iolanda: Também criaram um canal direto pra equipe operacional registrar anomalias — a gente não precisa mais passar por dez pessoas pra avisar que tem cheiro de mofo no ar condicionado.
+Téc. Iolanda: Dezoito anos aqui. Nunca tinha visto mudança assim tão rápida. Às vezes é preciso um surto pra alguém prestar atenção.
+Téc. Iolanda: Mas eu preferia que tivessem me ouvido em julho.
+=> END

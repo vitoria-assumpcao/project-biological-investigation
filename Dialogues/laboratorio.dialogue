@@ -1,0 +1,58 @@
+~ placa_cultura
+
+Você: (examina a placa de cultura na bancada)
+Uma placa de Petri com colônias acinzentadas crescendo, etiquetada: "Swab — grade UTI 3A — 15/11".
+Dra. Camila: Crescimento em BCYE-alfa — o meio seletivo para Legionella. Esse é o isolado da grade da UTI. Morfologia compatível.
+=> END
+
+
+~ computador_resultados
+
+Você: (examina a tela do computador)
+Uma tabela de resultados. Água da torneira: negativo. Água do bebedouro: negativo. Swab duto de ar 3A: POSITIVO. Swab duto de ar dormitório: POSITIVO. Swab superfícies: negativo.
+Dra. Camila: Os swabs de superfície e água deram todos negativos. O patógeno não está nas torneiras, não está nas bancadas. Só nos dutos de ar. É uma fonte aerogênica clássica de Legionella.
+Dra. Camila: E tem mais: eu sequenciei o isolado. É Legionella pneumophila sorogrupo 1 — o sorogrupo mais associado à Doença dos Legionários grave. Todas as cepas dos pacientes e da grade são idênticas no perfil molecular. Uma única fonte.
+=> END
+
+
+~ quadro_branco
+
+Você: (examina o quadro branco com a linha do tempo desenhada à mão)
+Contrato de manutenção encerrado: 8 meses atrás. Chamado de manutenção aberto (relatado pela Iolanda): 3 meses atrás. Chamado aberto pelo Enf. Marcos: 2,5 meses atrás. Primeiros sintomas: 15 dias atrás. Diagnóstico do surto: hoje.
+Dra. Camila: Eu desenhei isso quando o Marcos me mandou o histórico de chamados. Olha o intervalo: 8 meses de crescimento sem perturbação no duto. Legionella leva de 2 a 6 meses para atingir concentração infecciosa num biofilme. A linha do tempo bate.
+=> END
+
+
+~ camila
+
+Dra. Camila: Boa notícia: temos o agente. Má notícia: temos o agente. Pelo menos agora sabemos o que tratar e, mais importante, o que descontaminar.
+
+- Como a Legionella chega ao duto? => camila_mecanismo
+- Quem deveria ter feito essa manutenção? => camila_responsavel
+- É possível isso se repetir? => camila_prevencao
+- Por agora, é só isso. => END
+
+~ camila_mecanismo
+Dra. Camila: A Legionella vive naturalmente em ambientes aquáticos — lagos, rios. Em sistemas de climatização, ela entra pelo ar externo que o sistema capta. Em baixa concentração, o filtro limpo e a manutenção regular impedem que ela colonize.
+Dra. Camila: Quando o filtro não é trocado, ela forma biofilme nas paredes internas do duto, e aí é outra história — o biofilme a protege de desinfetantes simples. Precisa de limpeza física especializada.
+=> camila
+
+~ camila_responsavel
+Dra. Camila: Existe uma norma federal, a Portaria 3523 do Ministério da Saúde, que exige PMOC para todo sistema de climatização de ambientes coletivos. Em hospitais, isso é crítico. A manutenção pode ser feita por empresa terceirizada — o que era o caso aqui — ou por equipe interna especializada.
+Dra. Camila: O problema de terceirizar totalmente é que quando o contrato cai, o serviço para. Se tivesse uma equipe interna de manutenção predial com capacidade técnica para isso, o intervalo seria menor.
+=> camila
+
+~ camila_prevencao
+Dra. Camila: É totalmente evitável. Com manutenção semestral, troca regular de filtros HEPA, e monitoramento microbiológico periódico do ar, a Legionella não chega a concentração infecciosa.
+Dra. Camila: O problema não é a bactéria ser exótica ou imprevisível — ela é previsível e controlável. O problema é invisibilidade: o duto fica no teto, ninguém vê, ninguém pensa nele até aparecer um surto.
+=> camila
+
+~ locked_lab
+Você: Ainda há pistas para investigar aqui.
+=> END
+
+~ conclusao_lab
+
+Dra. Renata: Temos o quadro completo. Agora vou te pedir pra montar o relatório epidemiológico.
+Dra. Renata: Com esse laudo, o hospital vai acionar uma empresa especializada para descontaminação completa dos dutos, renovar o contrato de PMOC, e recomendar a criação de um canal formal para que trabalhadores de campo possam registrar anomalias que cheguem diretamente à CCIH.
+=> END

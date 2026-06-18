@@ -1,27 +1,10 @@
 extends Area2D
-## Generic interactable object. Attach this script to any Area2D that should
-## open a dialogue balloon when clicked: ducts, charts, doors, NPCs, etc.
-## Configure everything from the Inspector — no need to duplicate this script.
+## Same as interactable.gd but opens Credits screen after dialogue ends.
+## Use this specifically on Iolanda in the epilogue scene.
 
-## Path to the .dialogue resource (e.g. res://dialogues/uti.dialogue)
 @export_file("*.dialogue") var dialogue_file: String
-
-## Which title/label inside the .dialogue file to start from (the line that starts with "~ title")
 @export var dialogue_title: String = "start"
-
-## Only allow interacting once (good for one-shot clues). Leave false for NPCs you can talk to repeatedly.
-@export var one_shot: bool = false
-
-## Optional: id used by ClueManager when this object should register a clue on first interaction
-@export var clue_id: String = ""
-
-## Optional: shown in the clue tray / UI when collected
-@export var clue_label: String = ""
-
-## Visual highlight settings.
-## By default, highlights this Area2D's parent node (the sprite).
-## If the parent is a root scene node (and would highlight everything),
-## assign the specific sprite node to Highlight Target in the Inspector instead.
+@export var one_shot: bool = true
 @export var enable_highlight: bool = true
 @export var highlight_target: NodePath = NodePath("")
 @export var highlight_color: Color = Color(1.3, 1.3, 1.0, 1.0)
@@ -37,7 +20,6 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-	# Use explicit highlight_target if set; otherwise fall back to parent.
 	if highlight_target != NodePath(""):
 		var target := get_node_or_null(highlight_target)
 		if target is CanvasItem:
@@ -61,15 +43,16 @@ func _trigger() -> void:
 		return
 	_already_triggered = true
 
-	if clue_id != "" and not ClueManager.has_clue(clue_id):
-		ClueManager.add_clue(clue_id, clue_label)
-
 	if dialogue_file == "":
-		push_warning("Interactable '%s' has no dialogue_file set." % name)
+		push_warning("InteractableWithCredits '%s' has no dialogue_file set." % name)
 		return
 
 	var resource: DialogueResource = load(dialogue_file)
 	DialogueManager.show_dialogue_balloon(resource, dialogue_title)
+	await DialogueManager.dialogue_ended
+	await Transition.fade_to_black()
+	Credits.open()
+	await Transition.fade_in_from_black()
 
 
 func _on_mouse_entered() -> void:

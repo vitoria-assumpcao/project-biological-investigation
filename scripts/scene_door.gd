@@ -1,18 +1,23 @@
 extends Area2D
-## Attach to an Area2D that should change scene when clicked, with no dialogue
-## involved — e.g. a door leading from one location to another.
+## Attach to an Area2D that should change scene when clicked.
+## Optionally requires clues to be collected before allowing passage,
+## and can show a dialogue (and optionally a report screen) before transitioning.
 
-## Scene to load when this object is clicked (e.g. res://Scenes/UTI.tscn)
-@export_file("*.tscn") var next_scene: String
+@export_file("*.tscn") var next_scene: String = ""
+@export var required_clue_count: int = 0
+@export var required_clue_prefix: String = ""
+@export_file("*.dialogue") var dialogue_file: String = ""
+@export var dialogue_title: String = ""
 
-## Optional: requires this clue to have been collected before the door works.
-## Leave empty to allow entering at any time.
-@export var requires_clue: String = ""
+## If true, opens the Report screen after the first dialogue finishes,
+## then plays dialogue_title_after_report before transitioning.
+@export var show_report_after: bool = false
+@export var dialogue_title_after_report: String = ""
 
-## Optional: dialogue file + title to show if requires_clue isn't met yet
-## (e.g. a small "not ready yet" line). Leave dialogue_file empty to do nothing.
 @export_file("*.dialogue") var locked_dialogue_file: String = ""
 @export var locked_dialogue_title: String = "locked"
+
+var _in_progress: bool = false
 
 
 func _ready() -> void:
@@ -27,17 +32,45 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 
 
 func _trigger() -> void:
-	if requires_clue != "" and not ClueManager.has_clue(requires_clue):
+	if _in_progress:
+		return
+
+	if required_clue_count > 0 and _count_clues() < required_clue_count:
 		if locked_dialogue_file != "":
 			var resource: DialogueResource = load(locked_dialogue_file)
 			DialogueManager.show_dialogue_balloon(resource, locked_dialogue_title)
 		return
 
+	_in_progress = true
+
+	if dialogue_file != "" and dialogue_title != "":
+		var resource: DialogueResource = load(dialogue_file)
+		DialogueManager.show_dialogue_balloon(resource, dialogue_title)
+		await DialogueManager.dialogue_ended
+
+		if show_report_after:
+			Report.open()
+			await Report.closed
+			if dialogue_title_after_report != "":
+				DialogueManager.show_dialogue_balloon(resource, dialogue_title_after_report)
+				await DialogueManager.dialogue_ended
+
 	if next_scene == "":
 		push_warning("SceneDoor '%s' has no next_scene set." % name)
+		_in_progress = false
 		return
 
 	Transition.fade_to_scene(next_scene)
+
+
+func _count_clues() -> int:
+	if required_clue_prefix == "":
+		return ClueManager.count()
+	var n := 0
+	for clue_id in ClueManager.collected.keys():
+		if clue_id.begins_with(required_clue_prefix):
+			n += 1
+	return n
 
 
 func _on_mouse_entered() -> void:

@@ -1,0 +1,47 @@
+~ grade_parede
+
+Você: (examina a grade de ventilação na parede)
+Mesma poeira compactada, a mesma mancha úmida escura que você viu na UTI.
+Dra. Renata: Mesmo sistema. Mesma falta de manutenção. O dormitório fica no mesmo circuito de ar-condicionado do corredor da UTI — era o que eu suspeitava. A Legionella, quando se instala no biofilme dos dutos, se dispersa pelo ar em aerossóis microscópicos. Qualquer ambiente conectado ao mesmo circuito é área de risco.
+=> END
+
+
+~ escala_plantao
+
+Você: (lê a escala de plantão da semana, deixada sobre a mesa)
+Nomes, horários, andares. Você percebe um padrão: todos os profissionais que adoeceram fizeram plantão no 3º andar entre os dias 8 e 14. Nenhum profissional do 2º ou 4º andar foi afetado.
+Dra. Renata: Isso é epidemiologia clássica: curva epidêmica com ponto comum de exposição. Todos os casos — pacientes e funcionários — estiveram no 3º andar nesse período. O sistema de ar do 3º andar é o elo comum.
+=> END
+
+
+~ fernanda
+
+Téc. Fernanda: Seis dias de febre, tosse que não parava, dor de cabeça... Nunca estive tão mal.
+
+- Onde você ficava durante os plantões?  => fernanda_local
+- Você notou alguma coisa diferente antes de adoecer? => fernanda_notou
+- Como você se sente em relação ao hospital agora? => fernanda_sentimento
+- Por agora, é só isso. => END
+
+~ fernanda_local
+Téc. Fernanda: Aqui no corredor do 3º andar e nesse dormitório. Às vezes ficávamos horas aqui, entre plantões. O ar tá sempre ligado — é setembro, calor. A gente não tem janela que abra de verdade, então fica no ar-condicionado.
+=> fernanda
+
+~ fernanda_notou
+Téc. Fernanda: Uma semana antes eu estranhei um cheiro de mofo quando o ar ligava. Falei pro Marcos. Ele disse que ia abrir chamado. Mas eu não imaginei que pudesse ser... isso. A gente associa ar condicionado com resfriado, não com pneumonia grave.
+=> fernanda
+
+~ fernanda_sentimento
+Téc. Fernanda: Olha... não estou brava com ninguém, entende? Eu sei que a Iolanda cuida de tudo que pode. Sei que o Marcos é sobrecarregado. O problema não foi falta de cuidado — foi falta de recurso, de contrato, de prioridade administrativa. É diferente.
+Téc. Fernanda: O que me preocupa é: e se tivesse sido pior? E se fosse um paciente imunossuprimido com a mesma exposição que eu tive? Provavelmente não estaria aqui pra contar.
+=> fernanda
+
+~ locked_dorm
+Você: Ainda há pistas para investigar aqui.
+=> END
+
+~ conclusao_dorm
+
+Dra. Renata: A distribuição geográfica dos casos é conclusiva. O 3º andar é o epicentro, e o sistema de ventilação é o vetor mais provável. Mas precisamos de confirmação laboratorial para fechar o laudo epidemiológico.
+Dra. Renata: Vamos ao laboratório — a Camila já deve ter os resultados dos swabs que coletamos hoje cedo.
+=> END

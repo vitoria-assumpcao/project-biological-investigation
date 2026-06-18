@@ -64,3 +64,19 @@ func fade_to_scene(next_scene: String) -> void:
 func force_unlock() -> void:
 	_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_rect.modulate.a = 0.0
+
+
+## Fade to black without changing scene. Awaitable.
+func fade_to_black() -> void:
+	_rect.mouse_filter = Control.MOUSE_FILTER_STOP
+	var tween := create_tween()
+	tween.tween_property(_rect, "modulate:a", 1.0, fade_duration)
+	await tween.finished
+
+
+## Fade back in from black. Awaitable.
+func fade_in_from_black() -> void:
+	var tween := create_tween()
+	tween.tween_property(_rect, "modulate:a", 0.0, fade_duration)
+	await tween.finished
+	_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE

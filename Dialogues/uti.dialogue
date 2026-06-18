@@ -67,6 +67,10 @@ Enf. Marcos: A Iolanda falou sobre o cheiro umas três vezes. Eu abri chamado de
 Enf. Marcos: Sete pacientes internados, dois funcionários. Todos com sintomas iniciados entre o dia 10 e o dia 14 deste mês. Mesmo padrão clínico, mesmo andar.
 => marcos
 
+~ locked_uti
+Você: Ainda há pistas para investigar aqui.
+=> END
+
 ~ conclusao_uti
 
 Dra. Renata: Bom trabalho. Temos três pontos convergindo: pacientes com pneumonia atípica, um sistema de ventilação sem manutenção há meses, e funcionários que perceberam o problema mas não tinham canal de escalada eficiente.

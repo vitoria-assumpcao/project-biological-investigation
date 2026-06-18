@@ -48,6 +48,7 @@ var dialogue_line: DialogueLine:
 			dialogue_line = value
 			apply_dialogue_line()
 		else:
+			print("[Balloon] dialogue finished, closing balloon")
 			# The dialogue has finished so close the balloon
 			if owner == null:
 				queue_free()
@@ -75,6 +76,8 @@ const CHARACTER_PORTRAITS: Dictionary = {
 	"Dra. Renata": "res://Assets/retrato_renata.png",
 	"Téc. Iolanda": "res://Assets/retrato_iolanda.png",
 	"Enf. Marcos": "res://Assets/retrato_marcos.png",
+	"Téc. Fernanda": "res://Assets/retrato_fernanda.png",
+	"Dra. Camila": "res://Assets/retrato_camila.png",
 }
 
 ## The label showing the currently spoken dialogue
@@ -127,6 +130,7 @@ func _notification(what: int) -> void:
 
 ## Start some dialogue
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
+	print("[Balloon] start called with title: ", title)
 	temporary_game_states = [self] + extra_game_states
 	is_waiting_for_input = false
 	if is_instance_valid(with_dialogue_resource):
@@ -169,6 +173,7 @@ func apply_dialogue_line() -> void:
 	if not dialogue_line.text.is_empty():
 		dialogue_label.type_out()
 		await dialogue_label.finished_typing
+		print("[Balloon] finished_typing")
 
 	# Wait for next line
 	if dialogue_line.has_tag("voice"):
