@@ -30,7 +30,7 @@ Dra. Renata: Isso não é negligência de uma pessoa. É um processo burocrátic
 
 Téc. Iolanda: Posso ajudar em alguma coisa?
 
-- Vocé notou algo diferente nos últimos dias? => notou_diferente
+- Você notou algo diferente nos últimos dias? => notou_diferente
 - Qual é o trabalho da senhora aqui na UTI? => trabalho_iolanda
 - Quanto tempo a senhora trabalha aqui? => tempo_iolanda
 - Por agora, é só isso. => END
@@ -66,3 +66,9 @@ Enf. Marcos: A Iolanda falou sobre o cheiro umas três vezes. Eu abri chamado de
 ~ casos_marcos
 Enf. Marcos: Sete pacientes internados, dois funcionários. Todos com sintomas iniciados entre o dia 10 e o dia 14 deste mês. Mesmo padrão clínico, mesmo andar.
 => marcos
+
+~ conclusao_uti
+
+Dra. Renata: Bom trabalho. Temos três pontos convergindo: pacientes com pneumonia atípica, um sistema de ventilação sem manutenção há meses, e funcionários que perceberam o problema mas não tinham canal de escalada eficiente.
+Dra. Renata: Próxima parada: vamos continuar a investigação.
+=> END

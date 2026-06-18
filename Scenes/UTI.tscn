@@ -14,6 +14,8 @@
 [ext_resource type="Script" uid="uid://bwa8l8i0hpfss" path="res://scripts/interactable.gd" id="8_lnt0h"]
 [ext_resource type="Texture2D" uid="uid://b65d6iqlrv4u7" path="res://Assets/fernando_enfermeiro.png" id="9_86r6w"]
 [ext_resource type="Texture2D" uid="uid://c2pq7rywqfqst" path="res://Assets/separado_de_leito.png" id="10_ytf8q"]
+[ext_resource type="Script" uid="uid://cdhkl3r2qy7de" path="res://scripts/scene_door.gd" id="15_vx62f"]
+[ext_resource type="Script" uid="uid://rv8i15rek8f1" path="res://scripts/scene_completion.gd" id="16_xxsap"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v1qfn"]
 texture = ExtResource("1_a08jt")
@@ -3732,7 +3734,7 @@ radius = 329.6621
 height = 1212.6318
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g1544"]
-size = Vector2(25, 18)
+size = Vector2(25, 21)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_38qm0"]
 texture = ExtResource("2_nfi70")
@@ -3846,6 +3848,62 @@ sources/0 = SubResource("TileSetAtlasSource_jgn5g")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vx62f"]
 size = Vector2(10, 12)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ytf8q"]
+texture = ExtResource("2_nfi70")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_vx62f"]
+sources/0 = SubResource("TileSetAtlasSource_ytf8q")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xxsap"]
+size = Vector2(20, 32)
+
 [node name="Node_principal" type="Node2D" unique_id=763903031]
 
 [node name="ChaoUTI" type="TileMapLayer" parent="." unique_id=1995923060]
@@ -3857,12 +3915,12 @@ tile_map_data = PackedByteArray("AAAOAAgAAQACAAQAAAAOAAkAAQACAAUAAAAPAAgAAQADAAQ
 tile_set = SubResource("TileSet_6whob")
 
 [node name="camas" type="TileMapLayer" parent="." unique_id=600504562]
-tile_map_data = PackedByteArray("AAAGAAIAAAACAAAAAAAGAAMAAAACAAEAAAADAAUAAAADAAEAAAADAAYAAAADAAIAAAAEAAUAAAAEAAEAAAAEAAYAAAAEAAIAAAAKAAIAAAACAAAAAAAKAAMAAAACAAEAAAA=")
+tile_map_data = PackedByteArray("AAAGAAIAAAACAAAAAAAGAAMAAAACAAEAAAAKAAIAAAACAAAAAAAKAAMAAAACAAEAAAAAAAUAAAADAAEAAAAAAAYAAAADAAIAAAABAAUAAAAEAAEAAAABAAYAAAAEAAIAAAABAAIAAAAGAAMAAAABAAMAAAAGAAQAAAACAAIAAAAHAAMAAAACAAMAAAAHAAQAAAA=")
 tile_set = SubResource("TileSet_yjuom")
 
 [node name="paciente_uti1" type="Sprite2D" parent="." unique_id=82532949]
-position = Vector2(65.5, 101)
-scale = Vector2(0.026222538, 0.033840932)
+position = Vector2(16.999998, 98.99999)
+scale = Vector2(0.024805102, 0.030456858)
 texture = ExtResource("4_jgn5g")
 
 [node name="paciente uti2" type="Sprite2D" parent="." unique_id=1057670632]
@@ -3871,12 +3929,12 @@ scale = Vector2(0.027459946, 0.028692883)
 texture = ExtResource("5_ytf8q")
 
 [node name="paciente_uti3" type="Sprite2D" parent="." unique_id=1274371680]
-position = Vector2(166, 42.499996)
-scale = Vector2(0.041666675, 0.026591456)
+position = Vector2(164.5, 40.999996)
+scale = Vector2(0.03993055, 0.030620463)
 texture = ExtResource("6_vx62f")
 
 [node name="acessórios" type="TileMapLayer" parent="." unique_id=469323543]
-tile_map_data = PackedByteArray("AAAFAAEAAAABAAMAAAAFAAIAAAAAAAQAAAAHAAEAAAAFAAAAAAAHAAIAAAAFAAEAAAAEAAEAAAAHAAAAAAAEAAIAAAAHAAEAAAAGAAMAAAADAAQAAAADAAQAAAAFAAAAAAADAAUAAAAFAAEAAAAFAAQAAAAHAAAAAAAFAAUAAAAHAAEAAAAEAAUAAAAEAAMAAAAEAAYAAAAEAAQAAAAJAAEAAAABAAAAAAAJAAIAAAABAAEAAAALAAEAAAABAAMAAAALAAIAAAAAAAQAAAAKAAIAAAAFAAMAAAAKAAMAAAAFAAQAAAAMAAEAAAAHAAAAAAAMAAIAAAAHAAEAAAAPAAEAAAADAAUAAAAPAAIAAAADAAYAAAARAAEAAAADAAUAAAARAAIAAAADAAYAAAASAAMAAQAEAAYAAAASAAQAAQAEAAcAAAATAAQAAQAFAAcAAAATAAUAAQAHAAAAAAATAAEAAAAGAAIAAAASAAEAAAAGAAIAAAATAAcAAAACAAIAAAASAAcAAAABAAIAAAAGAAEAAAAFAAIAAAADAAYAAAAEAAUAAAADAAcAAAAEAAYAAAATAAYAAAAHAAIAAAATAAMAAQAFAAYAAAA=")
+tile_map_data = PackedByteArray("AAAEAAEAAAAHAAAAAAAEAAIAAAAHAAEAAAAGAAMAAAADAAQAAAAJAAEAAAABAAAAAAAJAAIAAAABAAEAAAALAAEAAAABAAMAAAALAAIAAAAAAAQAAAAKAAIAAAAFAAMAAAAKAAMAAAAFAAQAAAAMAAEAAAAHAAAAAAAMAAIAAAAHAAEAAAAPAAEAAAADAAUAAAAPAAIAAAADAAYAAAARAAEAAAADAAUAAAARAAIAAAADAAYAAAASAAMAAQAEAAYAAAASAAQAAQAEAAcAAAATAAQAAQAFAAcAAAATAAUAAQAHAAAAAAATAAEAAAAGAAIAAAASAAEAAAAGAAIAAAATAAcAAAACAAIAAAASAAcAAAABAAIAAAAGAAEAAAAFAAIAAAATAAYAAAAHAAIAAAATAAMAAQAFAAYAAAABAAUAAAAEAAMAAAABAAYAAAAEAAQAAAAAAAYAAAAEAAUAAAAAAAcAAAAEAAYAAAAAAAQAAAAFAAAAAAAAAAUAAAAFAAEAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAEAAAAHAAEAAAAAAAMAAAAHAAIAAAAAAAQAAAACAAQAAAAHAAAAAAACAAUAAAAHAAEAAAADAAEAAAAAAAMAAAADAAIAAAAAAAQAAAAAAAEAAAAHAAAAAAAAAAIAAAAHAAEAAAA=")
 tile_set = SubResource("TileSet_al6hw")
 
 [node name="iolada_limpeza" type="Sprite2D" parent="." unique_id=200029219]
@@ -3907,54 +3965,74 @@ dialogue_title = "marcos"
 position = Vector2(-73.25674, 0)
 shape = SubResource("CapsuleShape2D_sa2h2")
 
-[node name="Node_duto" type="Node2D" parent="." unique_id=2116783625]
-
-[node name="Sprite2D" type="Sprite2D" parent="Node_duto" unique_id=626969087]
+[node name="Duto" type="Sprite2D" parent="." unique_id=626969087]
 position = Vector2(223, 13)
 scale = Vector2(0.71875, 0.59375)
 texture = ExtResource("7_vcytd")
 
-[node name="Area2D" type="Area2D" parent="Node_duto" unique_id=98684916]
+[node name="Area2D" type="Area2D" parent="Duto" unique_id=98684916]
+position = Vector2(-310.26083, -21.894735)
+scale = Vector2(1.3913043, 1.6842104)
 script = ExtResource("8_lnt0h")
 dialogue_file = "uid://cm2o2mnfdvr70"
 dialogue_title = "duto"
-clue_id = "swab"
+clue_id = "uti_swab"
 clue_label = "Grade da UTI — biofilme"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node_duto/Area2D" unique_id=626628381]
-position = Vector2(223, 13)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Duto/Area2D" unique_id=626628381]
+position = Vector2(222.99997, 11.499998)
+scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("RectangleShape2D_g1544")
 
-[node name="Node_armario" type="Node2D" parent="." unique_id=1417669041]
-
-[node name="armario_clicavel" type="TileMapLayer" parent="Node_armario" unique_id=207530312]
+[node name="armario_clicavel" type="TileMapLayer" parent="." unique_id=207530312]
 tile_map_data = PackedByteArray("AAAQAAEAAAAGAAAAAAAQAAIAAAAGAAEAAAA=")
 tile_set = SubResource("TileSet_yecyr")
 
-[node name="Area2D" type="Area2D" parent="Node_armario/armario_clicavel" unique_id=1386895405]
+[node name="Area2D" type="Area2D" parent="armario_clicavel" unique_id=1386895405]
 script = ExtResource("8_lnt0h")
 dialogue_file = "uid://cm2o2mnfdvr70"
 dialogue_title = "registro_manutencao"
-clue_id = "manutencao"
+clue_id = "uti_manutencao"
 clue_label = "Registro de manutenção — PMOC desatualizado"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node_armario/armario_clicavel/Area2D" unique_id=86421398]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="armario_clicavel/Area2D" unique_id=86421398]
 position = Vector2(264.25, 35.5)
 shape = SubResource("RectangleShape2D_623l6")
 
-[node name="node_prontuario" type="Node2D" parent="." unique_id=1367460626]
-
-[node name="prontuario_paciente3" type="TileMapLayer" parent="node_prontuario" unique_id=338785502]
+[node name="prontuario_paciente3" type="TileMapLayer" parent="." unique_id=338785502]
 tile_map_data = PackedByteArray("AAAKAAEAAAAFAAIAAAA=")
 tile_set = SubResource("TileSet_ytf8q")
 
-[node name="Area2D" type="Area2D" parent="node_prontuario/prontuario_paciente3" unique_id=380593402]
+[node name="Area2D" type="Area2D" parent="prontuario_paciente3" unique_id=380593402]
 script = ExtResource("8_lnt0h")
 dialogue_file = "uid://cm2o2mnfdvr70"
 dialogue_title = "prontuario"
-clue_id = "prontuario"
+clue_id = "uti_prontuario"
 clue_label = "Prontuário leito 3 — pneumonia atípica"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="node_prontuario/prontuario_paciente3/Area2D" unique_id=1755990051]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="prontuario_paciente3/Area2D" unique_id=1755990051]
 position = Vector2(168, 24)
 shape = SubResource("RectangleShape2D_vx62f")
+
+[node name="acessorios2" type="TileMapLayer" parent="." unique_id=1914042738]
+tile_map_data = PackedByteArray("AAAHAAEAAAABAAMAAAADAAEAAAABAAMAAAA=")
+tile_set = SubResource("TileSet_vx62f")
+
+[node name="biombo_leito" type="Sprite2D" parent="." unique_id=135443103]
+position = Vector2(74, 73)
+scale = Vector2(0.028429147, 0.036901608)
+texture = ExtResource("10_ytf8q")
+
+[node name="Area2D_DOOR" type="Area2D" parent="." unique_id=1586972420]
+script = ExtResource("15_vx62f")
+next_scene = "uid://bqvccqui2pd2e"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_DOOR" unique_id=2087445748]
+position = Vector2(248, 146)
+shape = SubResource("RectangleShape2D_xxsap")
+
+[node name="final_cena" type="Node2D" parent="." unique_id=91619266]
+script = ExtResource("16_xxsap")
+scene_clue_prefix = "uti_"
+dialogue_file = "uid://cm2o2mnfdvr70"
+dialogue_title = "conclusao_uti"

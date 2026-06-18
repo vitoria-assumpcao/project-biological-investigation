@@ -19,6 +19,8 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 DialogueManager="*uid://c3rodes2l3gxb"
 ClueManager="*uid://boavmibfwfo10"
 Transition="*uid://d138qshg810wn"
+Hud="*uid://bgpsjsculfkcg"
+Inventory="*uid://cjy5kkmbmi03s"
 
 [dialogue_manager]
 
