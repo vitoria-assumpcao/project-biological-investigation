@@ -1,6 +1,9 @@
 extends Node
 ## Autoload singleton. Register this in Project > Project Settings > Autoload
 ## with the name "ClueManager" so it's globally accessible.
+##
+## Implements the Observer pattern as the Subject: emits clue_added so that
+## Hud, Inventory and other systems can react without tight coupling.
 
 signal clue_added(clue_id: String, clue_label: String)
 
@@ -12,7 +15,6 @@ func add_clue(id: String, label: String) -> void:
 		return
 	collected[id] = label
 	clue_added.emit(id, label)
-	print("Clue collected: ", label)
 
 
 func has_clue(id: String) -> bool:

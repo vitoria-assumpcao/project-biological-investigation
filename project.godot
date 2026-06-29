@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Projeto_Biological_Investigation"
-run/main_scene="uid://c330nlqj0ocwm"
+run/main_scene="uid://du6heb3fv5lj5"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 
 [autoload]

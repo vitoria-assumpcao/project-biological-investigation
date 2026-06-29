@@ -1,7 +1,7 @@
 extends Node
 ## Attach this to a Node in any investigation scene. Watches ClueManager and
 ## triggers a closing dialogue once all of this scene's clues are collected.
-## Uses a Timer-based approach instead of coroutines to avoid memory leaks.
+## Uses a Timer-based approach to avoid coroutine accumulation.
 
 @export var scene_clue_prefix: String = ""
 @export var clues_required: int = 3
@@ -18,58 +18,40 @@ var _check_timer: Timer
 
 func _ready() -> void:
 	ClueManager.clue_added.connect(_on_clue_added)
-
 	_check_timer = Timer.new()
 	_check_timer.wait_time = 0.1
 	_check_timer.timeout.connect(_on_check_timer)
 	add_child(_check_timer)
 
 
-func _on_clue_added(clue_id: String, _clue_label: String) -> void:
-	print("[SceneCompletion] clue_added: ", clue_id, " | count: ", _count_scene_clues(), "/", clues_required)
+func _on_clue_added(_clue_id: String, _clue_label: String) -> void:
 	if _already_triggered or _pending:
 		return
 	if _count_scene_clues() < clues_required:
 		return
-
-	print("[SceneCompletion] threshold reached, waiting for balloon to close...")
 	_pending = true
-	# Start polling every 0.1s to check when the balloon disappears
 	_check_timer.start()
 
 
 func _on_check_timer() -> void:
-	# Check if any balloon is currently visible in the scene tree.
-	# ExampleBalloon (the balloon scene) is a CanvasLayer added to the tree
-	# by DialogueManager while a dialogue is running and removed when done.
-	var balloon_active := false
-	for node in get_tree().get_nodes_in_group(""):
-		pass  # dummy, just warming up get_tree()
-
-	# DialogueManager adds the balloon as a child of the current scene or root.
-	# We check if any node named "ExampleBalloon" (or containing "Balloon")
-	# exists and is visible.
-	var root := get_tree().root
-	for child in root.get_children():
-		if "Balloon" in child.name and child.visible:
-			balloon_active = true
-			break
-	# Also check inside current scene
-	if not balloon_active and get_tree().current_scene != null:
-		for child in get_tree().current_scene.get_children():
-			if "Balloon" in child.name and child.visible:
-				balloon_active = true
-				break
-
-	print("[SceneCompletion] timer check | balloon_active=", balloon_active)
-
+	var balloon_active := _is_balloon_visible()
 	if not balloon_active:
 		_check_timer.stop()
 		_trigger_closing_dialogue()
 
 
+func _is_balloon_visible() -> bool:
+	for child in get_tree().root.get_children():
+		if "Balloon" in child.name and child.visible:
+			return true
+	if get_tree().current_scene != null:
+		for child in get_tree().current_scene.get_children():
+			if "Balloon" in child.name and child.visible:
+				return true
+	return false
+
+
 func _trigger_closing_dialogue() -> void:
-	print("[SceneCompletion] balloon gone, triggering closing dialogue in ", delay_seconds, "s")
 	await get_tree().create_timer(delay_seconds).timeout
 	_already_triggered = true
 	_pending = false
